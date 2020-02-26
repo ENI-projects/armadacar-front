@@ -1,0 +1,35 @@
+stages:
+    - setup
+    - test
+    - generate-image
+
+setup:
+    stage: setup
+    image: node:12
+    artifacts:
+        name: "artifacts-$CI_PIPELINE_ID"
+        expire_in: 1 hour
+        paths:
+            - node_modules/
+    script:
+        - npm ci
+
+## room for unit tests and e2e tests
+
+#linter-test:
+#    stage: test
+#    image: node:12
+#    script:
+#        - npm run format:check
+
+####################################
+
+build-and-push-image:
+    stage: generate-image
+    image: docker:19.03.1
+    services:
+        - docker:dind
+    script:
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+        - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
