@@ -24,7 +24,7 @@ setup:
 
 ####################################
 
-build-and-push-image:
+generate-testing:
     stage: generate-image
     image: docker:19.03.1
     services:
@@ -33,3 +33,15 @@ build-and-push-image:
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
         - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+
+generate-production:
+    stage: generate-image
+    image: docker:19.03.1
+    services:
+        - docker:dind
+    script:
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_TAG .
+        - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_TAG
+    only:
+        - tags
