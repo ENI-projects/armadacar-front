@@ -37,6 +37,7 @@ generate-testing:
 generate-production:
     stage: generate-image
     image: docker:19.03.1
+    when: manual
     services:
         - docker:dind
     script:
