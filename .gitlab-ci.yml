@@ -6,6 +6,8 @@ stages:
 setup:
     stage: setup
     image: node:12
+    tags:
+        - startfleet
     artifacts:
         name: "artifacts-$CI_PIPELINE_ID"
         expire_in: 1 hour
