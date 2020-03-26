@@ -3,6 +3,7 @@ stages:
     - test
     - generate-image
 
+# Install the node modules
 setup:
     stage: setup
     image: node:12
@@ -16,16 +17,18 @@ setup:
     script:
         - npm ci
 
-## room for unit tests and e2e tests
-
-#linter-test:
-#    stage: test
-#    image: node:12
-#    script:
-#        - npm run format:check
+# Use the node modules to test code linting
+linter-test:
+    stage: test
+    image: node:12
+    dependencies: 
+        - setup
+    script:
+        - npm run lint src/
 
 ####################################
 
+# this part generate the docker images for test and production
 generate-testing:
     stage: generate-image
     image: docker:19.03.1
@@ -41,7 +44,6 @@ generate-testing:
 generate-production:
     stage: generate-image
     image: docker:19.03.1
-    when: manual
     services:
         - docker:dind
     script:
