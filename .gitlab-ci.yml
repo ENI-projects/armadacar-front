@@ -17,8 +17,10 @@ setup:
     script:
         - npm ci
 
+####################################
+
 # Use the node modules to test code linting
-linter-test:
+lint:
     stage: test
     image: node:12
     tags:
@@ -28,10 +30,21 @@ linter-test:
     script:
         - npm run lint src/
 
+# Use the node modules to do unit tests
+unit:
+    stage: test
+    image: node:12
+    tags:
+        - startfleet
+    dependencies: 
+        - setup
+    script:
+        - npm run test:unit
+
 ####################################
 
 # this part generate the docker images for test and production
-generate-testing:
+testing:
     stage: generate-image
     image:
         name: gcr.io/kaniko-project/executor:debug
@@ -44,7 +57,7 @@ generate-testing:
     except:
         - tags
 
-generate-production:
+production:
     stage: generate-image
     image:
         name: gcr.io/kaniko-project/executor:debug

@@ -1,14 +1,14 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
 import HomeComponent from '@/views/Home.vue'
 import NewRaceComponent from '@/views/AddCourse.vue'
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
 //On définit les nouvelles url par rapport aux vues correspondante.
 //Création d'un nouvel objet VueRouter
 //Les paramètres name et path sont en francais
-export default new Router({
+export default new VueRouter({
     mode: 'history',
     routes: [
         { name: 'nouvelleCourse',
