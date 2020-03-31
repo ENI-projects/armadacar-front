@@ -1,7 +1,7 @@
 stages:
     - setup
     - test
-    - generate-image
+    - build
 
 # Install the node modules
 setup:
@@ -45,7 +45,7 @@ unit:
 
 # this part generate the docker images for test and production
 testing:
-    stage: generate-image
+    stage: build
     image:
         name: gcr.io/kaniko-project/executor:debug
         entrypoint: [""]
@@ -58,7 +58,7 @@ testing:
         - tags
 
 production:
-    stage: generate-image
+    stage: build
     image:
         name: gcr.io/kaniko-project/executor:debug
         entrypoint: [""]
