@@ -111,6 +111,12 @@ export default new Vuex.Store({
     [ACTIONS.ADD_EVENT]: async (context, event) => {
       // PUSH ON HASURA BEFORE UPDATE
       context.commit(MUTATIONS.ADD_EVENT, event)
+    },
+    [ACTIONS.UPDATE_TOKEN]: () => {
+      //code to update the user token
+    },
+    [ACTIONS.UPDATE_USER_ID]: () => {
+      //code to update user id
     }
   }
 });
