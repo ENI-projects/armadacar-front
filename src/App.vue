@@ -1,10 +1,8 @@
 <template>
-  <div id="app" class="h-100">
+  <div id="app">
     <NavBarComponent/>
     <router-view :key="$route.fullPath"/>
-    <FooterComponent
-      class="footer"
-    />
+    <FooterComponent/>
   </div>
 </template>
 
@@ -21,12 +19,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.footer{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-</style>

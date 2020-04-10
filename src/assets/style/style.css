@@ -1,26 +1,21 @@
+:root {
+  --primary: #004E64 !important;
+  --secondary: #25A18E !important;
+  --grey: #8c8c8c;
+}
+
+.modal-backdrop {
+  background-color: rgb(0,0,0,0.1) !important;
+}
+
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+    color: var(--primary);
   }
-
-footer
-{
-  background-color: #004E64;
-  color: white;
-}
-
-#navbar{
-  background-color: #004E64;  
-}
 
 .fc-center{
   text-transform: capitalize;
-}
-
-.nopadding {
-  padding: 0 !important;
-  margin: 0 !important;
 }

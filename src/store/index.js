@@ -8,7 +8,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     courses: [],
-    events: []
+    events: [],
+    vehicules: [],
+    lieuxStockages: [],
+    energies: []
   },
   mutations: {
     [MUTATIONS.SET_COURSES]: (state, courses) => {
@@ -16,6 +19,15 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_EVENTS]: (state, events) => {
       state.events = events;
+    },
+    [MUTATIONS.SET_VEHICULES]: (state, vehicules) => {
+      state.vehicules = vehicules;
+    },
+    [MUTATIONS.SET_LIEUX_STOCKAGES]: (state, lieuxStockages) => {
+      state.lieuxStockages = lieuxStockages;
+    },
+    [MUTATIONS.SET_ENERGIES]: (state, energies) => {
+      state.energies = energies;
     },
     [MUTATIONS.ADD_EVENT]: (state, event) => {
       state.events.push(event)
@@ -105,6 +117,145 @@ export default new Vuex.Store({
             url: 'http://google.com/',
             start: '2020-02-28'
           }
+        ]
+      );
+    },
+    [ACTIONS.SET_VEHICULES]: async (context) => {
+      context.commit(
+        MUTATIONS.SET_VEHICULES,
+        // NEXT TIME WILL MAKE REQUEST
+        [
+          { identifiant: 1, 
+            brand: 'Citroen', 
+            model: 'C3',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-EF',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Nord'
+          },
+          { identifiant: 2, 
+            brand: 'Renault', 
+            model: 'Clio',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-TR',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Sud'
+          },
+          { identifiant: 3, 
+            brand: 'Fiat', 
+            model: 'Punto',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-AZ',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Est'
+          },
+          { identifiant: 4, 
+            brand: 'Citroen', 
+            model: 'C3',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-EF',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Nord'
+          },
+          { identifiant: 5, 
+            brand: 'Renault', 
+            model: 'Clio',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-TR',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Sud'
+          },
+          { identifiant: 6, 
+            brand: 'Fiat', 
+            model: 'Punto',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-AZ',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Est'
+          },
+          { identifiant: 7, 
+            brand: 'Citroen', 
+            model: 'C3',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-EF',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Nord'
+          },
+          { identifiant: 8, 
+            brand: 'Renault', 
+            model: 'Clio',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-TR',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Sud'
+          },
+          { identifiant: 9, 
+            brand: 'Fiat', 
+            model: 'Punto',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-AZ',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Est'
+          },
+          { identifiant: 10, 
+            brand: 'Citroen', 
+            model: 'C3',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-EF',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Nord'
+          },
+          { identifiant: 11, 
+            brand: 'Renault', 
+            model: 'Clio',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-TR',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Sud'
+          },
+          { identifiant: 12, 
+            brand: 'Fiat', 
+            model: 'Punto',
+            energy: 'Essence',
+            nbhorsepower: '4',
+            registrationplaque: 'XS-396-AZ',
+            nbplaces: '5',
+            place: 'ENI Nantes Parking Est'
+          },          
+        ]
+      );
+    },
+    [ACTIONS.SET_LIEUX_STOCKAGES]: async (context) => {
+      context.commit(
+        MUTATIONS.SET_LIEUX_STOCKAGES,
+        // NEXT TIME WILL MAKE REQUEST
+        [          
+          'ENI Nantes Parking Nord',
+          'ENI Nantes Parking Sud',
+          'ENI Nantes Parking Est'
+        ]
+      );
+    },
+    [ACTIONS.SET_ENERGIES]: async (context) => {
+      context.commit(
+        MUTATIONS.SET_ENERGIES,        
+        [
+          { text: 'Choisir', value: null },
+          'Diesel', 
+          'Essence', 
+          'Gaz', 
+          'Électrique'
         ]
       );
     },

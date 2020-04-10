@@ -2,6 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeComponent from '@/views/Home.vue'
 import NewRaceComponent from '@/views/AddCourse.vue'
+import AddUpdateVehiculeComponent from '@/components/vehicule/AddUpdateVehicule.vue'
+import DetailVehiculeComponent from '@/components/vehicule/DetailVehicule.vue'
+import GestionVehiculeComponent from '@/components/vehicule/VehiculeList.vue'
 
 Vue.use(VueRouter);
 
@@ -11,13 +14,33 @@ Vue.use(VueRouter);
 export default new VueRouter({
     mode: 'history',
     routes: [
-        { name: 'nouvelleCourse',
+        { name: 'nouvelleCourse',        
             path: '/nouvelleCourse',
-            component: NewRaceComponent
+            component: NewRaceComponent,                        
         },
         { name:'accueil',
             path: '/', 
             component: HomeComponent
+        },
+        { name:'addVehicule',
+            path: '/admin/gestionVehicule/addVehicule', 
+            component: AddUpdateVehiculeComponent,
+            props: true,
+
+        },
+        { name:'updateVehicule',
+            path: '/admin/gestionVehicule/updateVehicule', 
+            component: AddUpdateVehiculeComponent,
+            props: true
+        },
+        { name:'detailVehicule',
+            path: '/admin/gestionVehicule/detailVehicule', 
+            component: DetailVehiculeComponent,
+            props: true
+        },
+        { name:'gestionVehicule',
+            path: '/admin/gestionVehicule/', 
+            component: GestionVehiculeComponent
         }
     ]
 })

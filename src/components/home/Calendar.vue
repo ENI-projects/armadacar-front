@@ -1,7 +1,7 @@
 <template>
   <div>
     <FullCalendar
-          class="demo-app"
+          class="demo-app-calendar"
           ref="fullCalendar"
           defaultView="dayGridMonth"
           :header="{
@@ -39,8 +39,6 @@ import languagePlugin from "@fullcalendar/core/locales/fr";
 import { BModal, VBModal } from 'bootstrap-vue';
 import store from '@/store';
 import { ACTIONS } from "@/store/actions-definitions";
-
-//import themeChooser from "../../assets/script/theme-chooser";
 
 // must manually include stylesheets for each plugin
 import "@fullcalendar/core/main.css";
@@ -96,4 +94,15 @@ export default {
 <style scoped>
   @import 'https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/minty/bootstrap.min.css';
   @import 'https://use.fontawesome.com/releases/v5.0.6/css/all.css';
+
+  .demo-app-calendar {
+    padding-top: 10px;
+    padding-bottom: 50px;
+    padding-right: 10px;    
+  }
+
+  .demo-app {
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
 </style>

@@ -1,16 +1,14 @@
 <template>
     <div class="row">
-        <b-navbar id="navbar" toggleable="lg" type="dark" class="col-md-12">
-            <!-- Le chemin définit dans le href correspond à la valeur de l'attribut path dans la configuration du routes -->
-            <!-- <b-navbar-brand :href="'/'">ArmadaCar</b-navbar-brand>     -->
+        <b-navbar id="navbar" toggleable="lg" type="dark" class="col-md-12">                       
             <router-link :to="'/'" class="navbar-brand">ArmadaCar</router-link>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="ml-auto">
-                    <b-navbar-nav>
+                    <b-navbar-nav>                       
+                        <router-link :to="'/admin/gestionVehicule'" class="nav-link">Gestion des véhicules</router-link>
                         <b-nav-item href="#">Historique</b-nav-item>
-                        <b-nav-item href="#">Rechercher une course</b-nav-item>
-                        <!-- <b-nav-item :href="'/nouveauDeplacement'">Réserver une course</b-nav-item> -->
+                        <b-nav-item href="#">Rechercher une course</b-nav-item>                        
                         <router-link :to="'/nouvelleCourse'" class="nav-link">Réserver une course</router-link>
                     </b-navbar-nav>
                     
@@ -25,13 +23,6 @@
 </template>
 
 <script>
-//import {b} from 'bootstrap-vue'
-import Vue from 'vue';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
-
 export default {
    data: function() {
        return {
@@ -42,3 +33,9 @@ export default {
 }
 
 </script>
+
+<style>
+#navbar{
+  background-color: var(--primary);  
+}
+</style>

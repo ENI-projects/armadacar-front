@@ -27,11 +27,22 @@ export default {
 .listCourses {
   border-radius: 30px;
   text-align: center;
-  border: 2px solid #8c8c8c;
-  padding: 10px;
+  border: 2px solid var(--grey);
+  padding: 10px;  
 }
 
 .titleList {
   margin-top: 10px;
+}
+
+@media (max-width: 1200px)
+{
+  .listCourses {
+    border-radius: 30px;
+    text-align: center;
+    border: 2px solid var(--grey);
+    padding: 10px;
+    margin-top: 10px;
+  }
 }
 </style>
