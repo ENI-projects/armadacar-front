@@ -5,6 +5,7 @@ import NewRaceComponent from '@/views/AddCourse.vue'
 import AddUpdateVehiculeComponent from '@/components/vehicule/AddUpdateVehicule.vue'
 import DetailVehiculeComponent from '@/components/vehicule/DetailVehicule.vue'
 import GestionVehiculeComponent from '@/components/vehicule/VehiculeList.vue'
+import ProfileComponent from '@/components/profile/Profile.vue'
 
 Vue.use(VueRouter);
 
@@ -41,6 +42,11 @@ export default new VueRouter({
         { name:'gestionVehicule',
             path: '/admin/gestionVehicule/', 
             component: GestionVehiculeComponent
+        },
+        { name:'profie',
+            path: '/profile', 
+            component: ProfileComponent,
+            props: true
         }
     ]
 })

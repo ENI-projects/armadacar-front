@@ -13,7 +13,7 @@
                     </b-navbar-nav>
                     
                     <b-nav-item-dropdown :text="`${userFirstName} ${userName}`" right>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+                        <b-dropdown-item router-link :to="'/profile'">Profil</b-dropdown-item>
                         <b-dropdown-item href="#">Se déconnecter</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
