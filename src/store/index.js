@@ -7,6 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    token: "",
+    userId: "",
     courses: [],
     events: [],
     vehicules: [],
@@ -31,6 +33,12 @@ export default new Vuex.Store({
     },
     [MUTATIONS.ADD_EVENT]: (state, event) => {
       state.events.push(event)
+    },
+    [MUTATIONS.UPDATE_TOKEN]: (state, token) =>{
+      state.token = token
+    },
+    [MUTATIONS.UPDATE_USER_ID]: (state, userId) => {
+      state.userId = userId
     }
   },
   actions: {
@@ -258,6 +266,12 @@ export default new Vuex.Store({
           'Électrique'
         ]
       );
+    },
+    [ACTIONS.UPDATE_TOKEN]: (context, token) => {
+      context.commit(MUTATIONS.UPDATE_TOKEN, token);
+    },
+    [ACTIONS.UPDATE_USER_ID]: (context, userId) => {
+      context.commit(MUTATIONS.UPDATE_USER_ID, userId);
     },
     [ACTIONS.ADD_EVENT]: async (context, event) => {
       // PUSH ON HASURA BEFORE UPDATE

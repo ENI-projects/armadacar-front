@@ -83,7 +83,7 @@ export default
     components: {    
       'b-modal': BModal
     },
-    data() {      
+    data() {           
       return {    
         modes: ['single'],
         argsIdVehiculeClicked: null,    

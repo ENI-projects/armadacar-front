@@ -5,5 +5,7 @@
 !package-lock.json
 !package.json
 !babel.config.js
+!.env.production
+!.env.development
 #this is for kaniko to build correctly the docker image
 !/app/dist

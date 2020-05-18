@@ -16,7 +16,7 @@ export default new VueRouter({
     routes: [
         { name: 'nouvelleCourse',        
             path: '/nouvelleCourse',
-            component: NewRaceComponent,                        
+            component: NewRaceComponent
         },
         { name:'accueil',
             path: '/', 
@@ -26,21 +26,33 @@ export default new VueRouter({
             path: '/admin/gestionVehicule/addVehicule', 
             component: AddUpdateVehiculeComponent,
             props: true,
-
+            meta: {
+                requireBeAdmin: true
+            }
         },
         { name:'updateVehicule',
             path: '/admin/gestionVehicule/updateVehicule', 
             component: AddUpdateVehiculeComponent,
-            props: true
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
         },
         { name:'detailVehicule',
             path: '/admin/gestionVehicule/detailVehicule', 
             component: DetailVehiculeComponent,
-            props: true
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
         },
         { name:'gestionVehicule',
             path: '/admin/gestionVehicule/', 
-            component: GestionVehiculeComponent
+            component: GestionVehiculeComponent,
+            meta: {
+                requireBeAdmin: true
+            }
         }
     ]
 })
+

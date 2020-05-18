@@ -4,5 +4,7 @@ export const ACTIONS = {
     ADD_EVENT: "addEvent",
     SET_VEHICULES: "setVehicules",
     SET_LIEUX_STOCKAGES: "setLieuxStockages",
-    SET_ENERGIES: "setEnergies"
+    SET_ENERGIES: "setEnergies",
+    UPDATE_TOKEN: "updateToken",
+    UPDATE_USER_ID: "userId"
 }

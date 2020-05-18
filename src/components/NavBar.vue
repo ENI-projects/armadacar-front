@@ -5,16 +5,15 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="ml-auto">
-                    <b-navbar-nav>                       
-                        <router-link :to="'/admin/gestionVehicule'" class="nav-link">Gestion des véhicules</router-link>
-                        <b-nav-item href="#">Historique</b-nav-item>
-                        <b-nav-item href="#">Rechercher une course</b-nav-item>                        
-                        <router-link :to="'/nouvelleCourse'" class="nav-link">Réserver une course</router-link>
-                    </b-navbar-nav>
-                    
-                    <b-nav-item-dropdown :text="`${userFirstName} ${userName}`" right>
+                    <div v-if="role.includes('adminentreprise')">
+                        <NavbarRoleAdminComponent/>
+                    </div>                   
+                    <div v-else>
+                        <NavbarRoleUserComponent/>
+                    </div>                   
+                    <b-nav-item-dropdown :text="`${userName}`" right>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Se déconnecter</b-dropdown-item>
+                        <b-dropdown-item @click="logOut()">Se déconnecter</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
@@ -23,11 +22,24 @@
 </template>
 
 <script>
-export default {
-   data: function() {
-       return {
-          userFirstName: 'Julien',
-          userName: 'LP'
+import NavbarRoleAdminComponent from '@/components/navbar/NavbarRoleAdmin.vue'
+import NavbarRoleUserComponent from '@/components/navbar/NavbarRoleUser.vue'
+import Vue from 'vue'
+
+export default {            
+    data() {        
+       return {                     
+          userName: Vue.prototype.$keycloak.fullName,
+          role :  Vue.prototype.$keycloak.tokenParsed.realm_access.roles                    
+        }
+    }    
+    ,components: {        
+        NavbarRoleAdminComponent,
+        NavbarRoleUserComponent        
+    },
+    methods:{
+        logOut(){
+            Vue.prototype.$keycloak.logoutFn();
         }
     }
 }
