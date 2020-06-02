@@ -39,7 +39,7 @@ export default new VueRouter({
             }
         },
         { name:'detailVehicule',
-            path: '/admin/gestionVehicule/detailVehicule', 
+            path: '/admin/gestionVehicule/detailVehicule/', 
             component: DetailVehiculeComponent,
             props: true,
             meta: {

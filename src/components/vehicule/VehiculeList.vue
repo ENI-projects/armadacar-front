@@ -11,7 +11,7 @@
             <select v-model="search" class="custom-select custom-select-sm" id="selectLieuStockage">
                 <option>Tout</option>
                 <option v-for="option in options" v-bind:key="option.text">
-                  {{option}}
+                  {{option.text}}
                 </option>
             </select>
         </div>        
@@ -28,7 +28,7 @@
             id="my-table"
             class="table-striped"
             :items="filteredList"
-            :per-page="perPage"
+            :per-page="perPage"            
             :current-page="currentPage"
             :fields="fields"
             @row-selected="rowClickedForDetail"
@@ -39,7 +39,7 @@
                                 <router-link :to="{name : 'updateVehicule', params: { vehicule: data.value}}"><img width="25px" height="25px" src="@/assets/images/pencilUpdate.png"></router-link>
                             </div>
                             <div class="col-xl-6">
-                              <a @click="handleDeleteVehiculeClick(data.value.registrationplaque)"><img width="30px" height="25px" src="@/assets/images/crossDelete.jpg" ></a>                              
+                              <a @click="handleDeleteVehiculeClick(data.value.id, data.value.immatriculation)"><img width="30px" height="25px" src="@/assets/images/crossDelete.jpg" ></a>                              
                               <b-modal
                                 id="removeVehicule"
                                 title="Suppression du véhicule"                                
@@ -56,7 +56,7 @@
         <b-pagination   
             aria-controls="my-table"         
             v-model="currentPage"
-            :total-rows="rows"
+            :total-rows="filteredList.length"
             :per-page="perPage"
             first-text="Premier"
             prev-text="Prec"
@@ -93,19 +93,23 @@ export default
         currentPage: 1,
         fields: [
           {
-            key: 'identifiant'            
+            key: 'immatriculation',
+            label: 'Immatriculation'
           },
           {
-            key: 'brand',
+            key: 'marque_modele',
             label: 'Marque/Modele',
             formatter: (value, key, item) => {
-              return item.brand + " " + item.model
+              return item.marque + " " + item.modele
             },
             sortable: true
           },
           {
-            key: 'place',
+            key: 'libelle',
             label: 'Lieux de stockage',
+            formatter: (value, key, item) => {
+              return item.lieux_de_stockage.libelle
+            },
             sortable: true            
           },
           {
@@ -122,44 +126,36 @@ export default
     },
     //Computed permet un traitement de l'information dynamiquement (si store).
     //Permet aussi d'initialiser une nouvelle variable par rapport à une fonction
-    computed: {
-      rows() {
-        return store.state.vehicules.length
-      },
+    computed: {            
       options: () => {
         return store.state.lieuxStockages
       },
       filteredList()
       {                 
-        
-          return store.state.vehicules.filter(item => {                            
+          return store.state.vehicules.filter(item => {
               if (this.search.toLowerCase() == "tout")
-              {                
+              {                                                 
                 return item
               }
-              else{                                
-                return item.place.toLowerCase().includes(this.search.toLowerCase())  
-              }              
+              else{                                                        
+                return item.lieux_de_stockage.libelle.toLowerCase().includes(this.search.toLowerCase())                  
+              }   
         })
       },
 
     }, 
     methods:{
-      handleDeleteVehiculeClick(arg) {        
-        this.confirmRemove = `Voulez-vous supprimer le véhicule ${arg} ?`
-        this.argsIdVehiculeClicked = arg
+      handleDeleteVehiculeClick(arg1, arg2) {              
+        this.confirmRemove = `Voulez-vous supprimer le véhicule ${arg2} ?`
+        this.argsIdVehiculeClicked = arg1
         this.$bvModal.show("removeVehicule")
       },
       okModelButtonClicked() {
         if (this.argsIdVehiculeClicked) 
         {                     
+          store.dispatch(ACTIONS.DELETE_CAR, {identifiant: this.argsIdVehiculeClicked});
           this.$bvModal.hide("removeVehicule")
-          // alert(this.argsIdVehiculeClicked)          
-          // store.dispatch(ACTIONS.DELETE_VEHICULE,
-          // {
-          //   id: this.argsIdVehiculeClicked
-          // });
-        }      
+        }         
       },
       cancelButtonClicked()
       {

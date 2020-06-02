@@ -2,16 +2,15 @@
   <div id="add-vehicule">
     <h2 v-if="this.$route.fullPath.includes('addVehicule')==true" id="titre" name="titre">Ajouter un véhicule </h2>   
     <h2 v-else id="titre" name="titre">Modifier un véhicule </h2> 
-
-    <b-form @submit="onSubmit" v-if="show">
-    <b-container fluid>
+  
+    <b-container fluid  v-if="show">
       <b-form-group>
         <b-row class="my-1">
           <b-col sm="2">
             <label>Marque* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-input ref="brand" name="brand" v-model="form.brand" id="input-2" required placeholder="Exemple : Citroën, Peugeot, Dacia..."></b-form-input>
+            <b-form-input ref="brand" name="brand" v-model="form.marque" id="input-2" required placeholder="Exemple : Citroën, Peugeot, Dacia..."></b-form-input>
           </b-col>
         </b-row>
       </b-form-group>
@@ -22,7 +21,7 @@
             <label>Modèle* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-input name="model" v-model="form.model" id="input-3" required placeholder="Exemple : C3, Clio4..."></b-form-input>
+            <b-form-input name="model" v-model="form.modele" id="input-3" required placeholder="Exemple : C3, Clio4..."></b-form-input>
           </b-col>
         </b-row>
       </b-form-group>
@@ -33,7 +32,7 @@
             <label>Type d'énergie* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-select name="energy" id="input-4" v-model="form.energy" :options="energies" required></b-form-select>
+            <b-form-select name="energy" id="input-4" v-model="form.energie" :options="energies" required></b-form-select>
           </b-col>
         </b-row>
       </b-form-group>
@@ -44,7 +43,7 @@
             <label>Nombre de chevaux* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-input name="nbhorsepower" v-model="form.nbhorsepower" type="number" id="input-5" required></b-form-input>
+            <b-form-input name="nbhorsepower" v-model="form.nombre_de_chevaux" type="number" id="input-5" required></b-form-input>
           </b-col>
         </b-row>
       </b-form-group>
@@ -55,7 +54,7 @@
             <label>Plaque d'immatriculation* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-input name="registrationplaque" v-model="form.registrationplaque" id="input-6" required placeholder="Format :  AA-123-AA"></b-form-input>
+            <b-form-input name="registrationplaque" v-model="form.immatriculation" id="input-6" required placeholder="Format :  AA-123-AA"></b-form-input>
           </b-col>
         </b-row>
       </b-form-group>
@@ -66,7 +65,7 @@
             <label>Nombre de place* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-input name="nbplaces" v-model="form.nbplaces" type="number" id="input-7" required ></b-form-input>
+            <b-form-input name="nbplaces" v-model="form.nombre_de_places" type="number" id="input-7" required ></b-form-input>
           </b-col>
         </b-row>
       </b-form-group>
@@ -77,16 +76,15 @@
             <label>Lieux de stockage* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-select name="place" id="input-8" v-model="form.place" :options="places" required></b-form-select>
+            <b-form-select name="place" id="input-8" v-model="form.id_lieux_de_stockage" :options="places" required></b-form-select>
           </b-col>
         </b-row>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Valider</b-button>      
+      <b-button type="submit" variant="primary" @click="onSubmit">Valider</b-button>      
       <router-link :to="{name: 'gestionVehicule'}"><b-button variant="danger">Annuler</b-button></router-link>
 
-    </b-container>
-    </b-form>
+    </b-container>  
   </div>
 </template>
 
@@ -98,28 +96,56 @@ store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);
 store.dispatch(ACTIONS.SET_ENERGIES);
 
 export default {  
-  data() {            
+  data() {           
     return {         
       form: {
-        brand: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.brand,
-        model: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.model,      
-        energy: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.energy,
-        nbhorsepower: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.nbhorsepower,
-        registrationplaque: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.registrationplaque,
-        nbplaces: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.nbplaces,
-        place: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.place,
+        marque: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.marque,
+        modele: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.modele,      
+        energie: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.energie,
+        nombre_de_chevaux: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.nombre_de_chevaux,
+        immatriculation: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.immatriculation,
+        nombre_de_places: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.nombre_de_places,
+        id_lieux_de_stockage: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.id_lieux_de_stockage,
       },        
-      show: true        
+      show: true
     }      
   },
   computed: {      
     places: () => store.state.lieuxStockages,
-    energies: () => store.state.energies
+    energies: () => store.state.energies    
   },
   methods: {
     onSubmit() {
       const form = this.form;
-      this.$router.push({ name: 'detailVehicule', params: { vehicule: form }})    
+      if (this.$route.params.vehicule != null)
+      {
+          store.dispatch(ACTIONS.UDPATE_CAR, {        
+          marque: form.marque,
+          modele: form.modele,
+          immatriculation: form.immatriculation,
+          energie: form.energie,
+          nombre_de_chevaux: form.nombre_de_chevaux,
+          nombre_de_places: form.nombre_de_places,
+          id_lieux_de_stockage: form.id_lieux_de_stockage,
+          idVoiture: this.$route.params.vehicule.id
+        }).then(() => {
+          this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
+        })
+      }
+      else
+      {
+          store.dispatch(ACTIONS.ADD_CAR, {        
+          marque: form.marque,
+          modele: form.modele,
+          immatriculation: form.immatriculation,
+          energie: form.energie,
+          nombre_de_chevaux: form.nombre_de_chevaux,
+          nombre_de_places: form.nombre_de_places,
+          id_lieux_de_stockage: form.id_lieux_de_stockage          
+        }).then(() => {
+          this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
+        })  
+      }      
     }
   }
 }

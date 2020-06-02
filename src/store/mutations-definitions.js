@@ -6,5 +6,8 @@ export const MUTATIONS = {
     SET_LIEUX_STOCKAGES: "setLieuStockage",
     SET_ENERGIES: "setEnergies",
     UPDATE_TOKEN: "updateToken",
-    UPDATE_USER_ID: "userId"
+    UPDATE_USER_ID: "userId",
+    ADD_CAR: "addCar",
+    DELETE_CAR: "removeCar",
+    UDPATE_CAR: "updateCar"
 }

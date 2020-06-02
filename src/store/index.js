@@ -2,6 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { MUTATIONS } from "./mutations-definitions";
 import { ACTIONS } from "./actions-definitions";
+import { fetchAsync, fetcher } from "@/api/fetcher";
+import { queries } from "@/api/queries.js";
+import { mutations } from "@/api/mutations.js";
 
 Vue.use(Vuex);
 
@@ -12,8 +15,10 @@ export default new Vuex.Store({
     courses: [],
     events: [],
     vehicules: [],
+    car: [],
     lieuxStockages: [],
-    energies: []
+    energies: [],
+    isDelete: ""
   },
   mutations: {
     [MUTATIONS.SET_COURSES]: (state, courses) => {
@@ -23,7 +28,7 @@ export default new Vuex.Store({
       state.events = events;
     },
     [MUTATIONS.SET_VEHICULES]: (state, vehicules) => {
-      state.vehicules = vehicules;
+      state.vehicules = vehicules;      
     },
     [MUTATIONS.SET_LIEUX_STOCKAGES]: (state, lieuxStockages) => {
       state.lieuxStockages = lieuxStockages;
@@ -39,7 +44,18 @@ export default new Vuex.Store({
     },
     [MUTATIONS.UPDATE_USER_ID]: (state, userId) => {
       state.userId = userId
-    }
+    },
+    [MUTATIONS.ADD_CAR]: (state, car) => {
+      state.vehicules.push(car)      
+      state.car = car;      
+    },
+    [MUTATIONS.DELETE_CAR]: (state, isDelete) => {
+      state.isDelete = isDelete
+    },
+    [MUTATIONS.UDPATE_CAR]: (state, car) => {            
+      state.vehicules.push(car)      
+      state.car = car;      
+    },
   },
   actions: {
     [ACTIONS.SET_COURSES]: async (context) => {
@@ -128,130 +144,26 @@ export default new Vuex.Store({
         ]
       );
     },
-    [ACTIONS.SET_VEHICULES]: async (context) => {
+    [ACTIONS.SET_VEHICULES]: async (context) => {      
+      const vehiculeList = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.carsList
+      );      
       context.commit(
         MUTATIONS.SET_VEHICULES,
-        // NEXT TIME WILL MAKE REQUEST
-        [
-          { identifiant: 1, 
-            brand: 'Citroen', 
-            model: 'C3',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-EF',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Nord'
-          },
-          { identifiant: 2, 
-            brand: 'Renault', 
-            model: 'Clio',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-TR',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Sud'
-          },
-          { identifiant: 3, 
-            brand: 'Fiat', 
-            model: 'Punto',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-AZ',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Est'
-          },
-          { identifiant: 4, 
-            brand: 'Citroen', 
-            model: 'C3',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-EF',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Nord'
-          },
-          { identifiant: 5, 
-            brand: 'Renault', 
-            model: 'Clio',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-TR',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Sud'
-          },
-          { identifiant: 6, 
-            brand: 'Fiat', 
-            model: 'Punto',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-AZ',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Est'
-          },
-          { identifiant: 7, 
-            brand: 'Citroen', 
-            model: 'C3',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-EF',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Nord'
-          },
-          { identifiant: 8, 
-            brand: 'Renault', 
-            model: 'Clio',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-TR',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Sud'
-          },
-          { identifiant: 9, 
-            brand: 'Fiat', 
-            model: 'Punto',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-AZ',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Est'
-          },
-          { identifiant: 10, 
-            brand: 'Citroen', 
-            model: 'C3',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-EF',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Nord'
-          },
-          { identifiant: 11, 
-            brand: 'Renault', 
-            model: 'Clio',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-TR',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Sud'
-          },
-          { identifiant: 12, 
-            brand: 'Fiat', 
-            model: 'Punto',
-            energy: 'Essence',
-            nbhorsepower: '4',
-            registrationplaque: 'XS-396-AZ',
-            nbplaces: '5',
-            place: 'ENI Nantes Parking Est'
-          },          
-        ]
+        vehiculeList.data.armadacar_voitures        
       );
     },
     [ACTIONS.SET_LIEUX_STOCKAGES]: async (context) => {
       context.commit(
         MUTATIONS.SET_LIEUX_STOCKAGES,
         // NEXT TIME WILL MAKE REQUEST
-        [          
-          'ENI Nantes Parking Nord',
-          'ENI Nantes Parking Sud',
-          'ENI Nantes Parking Est'
+        [ 
+          {value:1, text: 'ENI Nantes Parking Sud'},         
+          {value:2, text: 'ENI Nantes Parking Nord'},          
+          {value:3, text: 'ENI Nantes Parking Est'},
+          {value:4, text: 'ENI Nantes Parking Ouest'}
         ]
       );
     },
@@ -276,6 +188,58 @@ export default new Vuex.Store({
     [ACTIONS.ADD_EVENT]: async (context, event) => {
       // PUSH ON HASURA BEFORE UPDATE
       context.commit(MUTATIONS.ADD_EVENT, event)
+    },
+    [ACTIONS.ADD_CAR]: async (context, {marque, modele, immatriculation, energie, nombre_de_chevaux, nombre_de_places, id_lieux_de_stockage}) => {
+      const addCar = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.insertCar,
+        {
+          marque, 
+          modele, 
+          immatriculation, 
+          energie, 
+          nombre_de_chevaux, 
+          nombre_de_places, 
+          id_lieux_de_stockage
+        }
+      );               
+      return context.commit(MUTATIONS.ADD_CAR, addCar.data.insert_armadacar_voitures.returning[0]);
+    },
+    [ACTIONS.UDPATE_CAR]: async (context, {marque, modele, immatriculation, energie, nombre_de_chevaux, nombre_de_places, id_lieux_de_stockage, idVoiture}) => {
+      var index = context.state.vehicules.findIndex(car => car.id == idVoiture)
+      context.state.vehicules.splice(index, 1)      
+      const updateCar = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.updateCar,        
+        {
+          marque, 
+          modele, 
+          immatriculation, 
+          energie, 
+          nombre_de_chevaux, 
+          nombre_de_places, 
+          id_lieux_de_stockage,
+          idVoiture,
+          idEntreprise:1
+        }
+      );                           
+      return context.commit(MUTATIONS.UDPATE_CAR, updateCar.data.update_armadacar_voitures.returning[0]);
+    },
+    async [ACTIONS.DELETE_CAR](context, {identifiant}) {      
+      //Permet de récupérer l'index du véhicule de la liste pour le supprimé du store.      
+      var index = context.state.vehicules.findIndex(car => car.id == identifiant)      
+      context.state.vehicules.splice(index, 1)
+      await fetchAsync(
+        context.state.token,
+        fetcher,                        
+        mutations.deleteCar,
+        {          
+          idVoiture: identifiant
+        }
+      );
+      context.commit(MUTATIONS.DELETE_CAR, false, identifiant);
     }
   }
 });
