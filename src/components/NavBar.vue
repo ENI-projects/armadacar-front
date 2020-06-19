@@ -27,10 +27,10 @@ import NavbarRoleUserComponent from '@/components/navbar/NavbarRoleUser.vue'
 import Vue from 'vue'
 
 export default {            
-    data() {        
+    data() {                
        return {                     
           userName: Vue.prototype.$keycloak.fullName,
-          role :  Vue.prototype.$keycloak.tokenParsed.realm_access.roles                    
+          role :  Vue.prototype.$keycloak.tokenParsed.resource_access["armadacar-frontend-app"].roles
         }
     }    
     ,components: {        

@@ -11,8 +11,8 @@ Vue.config.productionTip = false
   
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requireBeAdmin)) {
-    if (Vue.prototype.$keycloak.authenticated) {      
-      if (Vue.prototype.$keycloak.tokenParsed.realm_access.roles.includes("adminentreprise"))
+    if (Vue.prototype.$keycloak.authenticated) {           
+      if (Vue.prototype.$keycloak.tokenParsed.resource_access["armadacar-frontend-app"].roles.includes("adminentreprise"))
       {
         next()
       }
