@@ -13,5 +13,6 @@ footer
 {
   background-color: var(--primary);
   color: white;  
+  text-align:center;
 }
 </style>

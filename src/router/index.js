@@ -5,6 +5,9 @@ import NewRaceComponent from '@/views/AddCourse.vue'
 import AddUpdateVehiculeComponent from '@/components/vehicule/AddUpdateVehicule.vue'
 import DetailVehiculeComponent from '@/components/vehicule/DetailVehicule.vue'
 import GestionVehiculeComponent from '@/components/vehicule/VehiculeList.vue'
+import GestionUserComponent from '@/components/user/UserList.vue'
+import AddUpdateUserComponent from '@/components/user/AddUpdateUser.vue'
+import DetailUserComponent from '@/components/user/DetailUser.vue'
 
 Vue.use(VueRouter);
 
@@ -52,7 +55,38 @@ export default new VueRouter({
             meta: {
                 requireBeAdmin: true
             }
-        }
+        },
+        { name:'gestionUser',
+            path: '/admin/gestionUser/', 
+            component: GestionUserComponent,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
+        { name:'addUser',
+            path: '/admin/gestionUser/addUser', 
+            component: AddUpdateUserComponent,
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
+        { name:'updateUser',
+            path: '/admin/gestionUser/updateUser', 
+            component: AddUpdateUserComponent,
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
+        { name:'detailUser',
+            path: '/admin/gestionUser/detailUser', 
+            component: DetailUserComponent,
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
     ]
 })
 

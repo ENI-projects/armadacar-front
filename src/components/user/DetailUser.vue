@@ -2,13 +2,13 @@
     <div style="padding-left:10px">
         <br/>
         <div>
-            <h1><b>Détail du véhicule</b></h1>   
+            <h1><b>Détail de l'utilisateur</b></h1>   
         </div>
         <b-container fluid>
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
-                    <label>Marque : </label> {{ $route.params.vehicule.marque }}
+                    <label>Prénom : </label> {{ $route.params.user.firstname }}
                 </b-col>
                 </b-row>
             </b-form-group>
@@ -16,7 +16,7 @@
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
-                    <label>Modèle : </label> {{ $route.params.vehicule.modele }}
+                    <label>Nom : </label> {{ $route.params.user.name }}
                 </b-col>
                 </b-row>
             </b-form-group>
@@ -24,7 +24,7 @@
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
-                    <label>Type d'énergie : </label>   {{ $route.params.vehicule.energie }}
+                    <label>Email : </label>   {{ $route.params.user.email }}
                 </b-col>
                 </b-row>
             </b-form-group>
@@ -32,7 +32,7 @@
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
-                    <label>Nombre de chevaux : </label> {{ $route.params.vehicule.nombre_de_chevaux }}
+                    <label>Téléphone : </label> {{ $route.params.user.phone }}
                 </b-col>
                 </b-row>
             </b-form-group>
@@ -40,7 +40,7 @@
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
-                    <label>Plaque d'immatriculation : </label> {{ $route.params.vehicule.immatriculation }}
+                    <label>Adresse : </label> {{ $route.params.user.address }}
                 </b-col>
                 </b-row>
             </b-form-group>
@@ -48,7 +48,7 @@
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
-                    <label>Nombre de place : </label>   {{ $route.params.vehicule.nombre_de_places }}
+                    <label>Code postal : </label>   {{ $route.params.user.cp }}
                 </b-col>
                 </b-row>
             </b-form-group>
@@ -56,14 +56,14 @@
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
-                    <label>Lieux de stockage : </label> {{ $route.params.vehicule.lieux_de_stockage.libelle }}
+                    <label>Ville : </label> {{ $route.params.user.city }}
                 </b-col>
                 </b-row>
             </b-form-group>
 
             <b-row id="margin-button">
                 <b-col md="1" offset-md="5">
-                    <router-link :to="{name: 'gestionVehicule'}"><b-button href = "/" variant="primary">Retour</b-button></router-link>
+                    <router-link :to="{name: 'gestionUser'}"><b-button href = "/" variant="primary">Retour</b-button></router-link>
                 </b-col>
             </b-row>    
         </b-container>

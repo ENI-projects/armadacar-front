@@ -1,9 +1,13 @@
 <template>
   <div id="add-vehicule">
-    <h2 v-if="this.$route.fullPath.includes('addVehicule')==true" id="titre" name="titre">Ajouter un véhicule </h2>   
-    <h2 v-else id="titre" name="titre">Modifier un véhicule </h2> 
-  
-    <b-container fluid  v-if="show">
+    <br/>
+    <div>
+      <h1 v-if="this.$route.fullPath.includes('addVehicule')==true" id="titre" name="titre"><b>Ajouter un véhicule </b></h1>   
+      <h1 v-else id="titre" name="titre"><b>Modifier un véhicule </b></h1> 
+    </div>
+    <br/>
+
+    <b-container fluid v-if="show">
       <b-form-group>
         <b-row class="my-1">
           <b-col sm="2">
@@ -81,8 +85,14 @@
         </b-row>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" @click="onSubmit">Valider</b-button>      
-      <router-link :to="{name: 'gestionVehicule'}"><b-button variant="danger">Annuler</b-button></router-link>
+      <b-row id="margin-button">
+        <b-col md="1" offset-md="4">
+          <b-button type="submit" variant="primary" @click="onSubmit">Valider</b-button>      
+        </b-col>
+        <b-col md="1" offset-md="1">
+          <router-link :to="{name: 'gestionVehicule'}"><b-button variant="danger">Annuler</b-button></router-link>
+        </b-col>
+      </b-row>
 
     </b-container>  
   </div>
@@ -150,3 +160,11 @@ export default {
   }
 }
 </script>
+
+<style>
+  /* Permet de mettre le titre et les boutons au milieu */
+  #margin-button
+  {
+    margin-bottom:50px;
+  }
+</style>

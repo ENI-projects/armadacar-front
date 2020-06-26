@@ -32,7 +32,7 @@ describe('Tests UpdateVehicule component', () => {
     wrapper.vm.$nextTick();
     wrapper.vm.$router.push('/admin/gestionVehicule/updateVehicule');
 
-    const title = wrapper.find('h2');
+    const title = wrapper.find('h1');
     expect(title.element.textContent.toLowerCase()).toContain("modifier")    
   })
 })

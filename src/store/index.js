@@ -18,7 +18,8 @@ export default new Vuex.Store({
     car: [],
     lieuxStockages: [],
     energies: [],
-    isDelete: ""
+    isDelete: "",
+    users: [],
   },
   mutations: {
     [MUTATIONS.SET_COURSES]: (state, courses) => {
@@ -54,7 +55,10 @@ export default new Vuex.Store({
     },
     [MUTATIONS.UDPATE_CAR]: (state, car) => {            
       state.vehicules.push(car)      
-      state.car = car;      
+      state.car = car; 
+    },     
+    [MUTATIONS.SET_USERS]: (state, users) => {
+      state.users = users;
     },
   },
   actions: {
@@ -176,6 +180,42 @@ export default new Vuex.Store({
           'Essence', 
           'Gaz', 
           'Électrique'
+        ]
+      );
+    },
+    [ACTIONS.SET_USERS]: async (context) => {
+      context.commit(
+        MUTATIONS.SET_USERS,
+        // NEXT TIME WILL MAKE REQUEST
+        [
+          { identifiant: 1, 
+            firstname: 'Jean-Michel', 
+            name: 'DUPONT',
+            email: 'jeanmi@gmail.com',
+            phone: '0685749586',
+            address: '7 rue des Lilas',
+            cp: '44000',
+            city: 'Nantes'
+          },
+          { identifiant: 2, 
+            firstname: 'Tony', 
+            name: 'Stark',
+            email: 'stark.tony@gmail.com',
+            phone: '06385974583',
+            address: '4 rue Malibu Beach',
+            cp: '44000',
+            city: 'Nantes'
+          },
+          { identifiant: 3, 
+            firstname: 'Bruce', 
+            name: 'Baner',
+            email: 'baner.bruce@gmail.com',
+            phone: '0635958512',
+            address: '4 rue tours des avengers',
+            cp: '44000',
+            city: 'Nantes'
+          
+          },
         ]
       );
     },

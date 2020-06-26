@@ -9,5 +9,6 @@ export const ACTIONS = {
     UPDATE_USER_ID: "userId",
     ADD_CAR: "addCar",
     DELETE_CAR: "removeCar",
-    UDPATE_CAR: "updateCar"
+    UDPATE_CAR: "updateCar",
+    SET_USERS: "setUsers",
 }
