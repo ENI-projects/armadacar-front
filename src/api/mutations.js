@@ -89,5 +89,77 @@ export const mutations =
             }
           }
     }
-  }`
+  }`,
+  insertStoragePlace: 
+  `mutation (
+    $libelle: String!, 
+    $adresse: String!, 
+    $ville: String!, 
+    $departement: String!, 
+    $code_postal: String!)
+    {      
+      insert_armadacar_lieux_de_stockage (          
+        objects: 
+        {
+          libelle: $libelle
+          id_entreprise: 1
+          adresse: $adresse
+          ville: $ville
+          departement: $departement
+          code_postal: $code_postal
+        }
+      )
+      {
+        returning
+        {
+          id
+          libelle
+          id_entreprise
+          adresse
+          ville
+          departement
+          code_postal   
+        }
+      }
+  }`,
+  updateStoragePlace: 
+  `mutation (
+    $libelle: String!, 
+    $adresse: String!, 
+    $ville: String!, 
+    $departement: String!, 
+    $code_postal: String!,
+    $idStoragePlace: Int!,
+    $id_entreprise: Int!)
+    {
+    update_armadacar_lieux_de_stockage (
+      where: {id: {_eq: $idStoragePlace} _and: {id_entreprise: {_eq: $id_entreprise}}}, 
+      _set: {
+        libelle: $libelle
+        adresse: $adresse
+        ville: $ville
+        departement: $departement
+        code_postal: $code_postal        
+      })
+    {    
+        returning
+          {
+            id
+            libelle
+            id_entreprise
+            adresse
+            ville
+            departement
+            code_postal
+          }
+    }
+  }`,
+  deleteStoragePlace:
+  `mutation ($idStoragePlace: Int!)
+  {
+    delete_armadacar_lieux_de_stockage (where: {id: {_eq: $idStoragePlace}} )
+    {
+      affected_rows
+    }
+  }`,
 }

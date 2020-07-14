@@ -20,6 +20,7 @@ export default new Vuex.Store({
     energies: [],
     isDelete: "",
     users: [],
+    storagePlace: [],
   },
   mutations: {
     [MUTATIONS.SET_COURSES]: (state, courses) => {
@@ -60,6 +61,17 @@ export default new Vuex.Store({
     [MUTATIONS.SET_USERS]: (state, users) => {
       state.users = users;
     },
+    [MUTATIONS.ADD_STORAGE_PLACE]: (state, storagePlace) => {
+      state.lieuxStockages.push(storagePlace)      
+      state.storagePlace = storagePlace;      
+    },
+    [MUTATIONS.DELETE_STORAGE_PLACE]: (state, isDelete) => {
+      state.isDelete = isDelete
+    },
+    [MUTATIONS.UDPATE_STORAGE_PLACE]: (state, storagePlace) => {            
+      state.lieuxStockages.push(storagePlace)      
+      state.storagePlace = storagePlace; 
+    }, 
   },
   actions: {
     [ACTIONS.SET_COURSES]: async (context) => {
@@ -160,15 +172,14 @@ export default new Vuex.Store({
       );
     },
     [ACTIONS.SET_LIEUX_STOCKAGES]: async (context) => {
+      const storagePlaceList = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.storagePlaceList
+      );      
       context.commit(
         MUTATIONS.SET_LIEUX_STOCKAGES,
-        // NEXT TIME WILL MAKE REQUEST
-        [ 
-          {value:1, text: 'ENI Nantes Parking Sud'},         
-          {value:2, text: 'ENI Nantes Parking Nord'},          
-          {value:3, text: 'ENI Nantes Parking Est'},
-          {value:4, text: 'ENI Nantes Parking Ouest'}
-        ]
+        storagePlaceList.data.armadacar_lieux_de_stockage        
       );
     },
     [ACTIONS.SET_ENERGIES]: async (context) => {
@@ -280,6 +291,54 @@ export default new Vuex.Store({
         }
       );
       context.commit(MUTATIONS.DELETE_CAR, false, identifiant);
+    },
+    [ACTIONS.ADD_STORAGE_PLACE]: async (context, {libelle, adresse, ville, departement, code_postal}) => {
+      const addStoragePlace = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.insertStoragePlace,
+        {
+          libelle, 
+          adresse, 
+          ville, 
+          departement, 
+          code_postal, 
+        }
+      );               
+      return context.commit(MUTATIONS.ADD_STORAGE_PLACE, addStoragePlace.data.insert_armadacar_lieux_de_stockage.returning[0]);
+    },
+    [ACTIONS.UDPATE_STORAGE_PLACE]: async (context, {libelle, adresse, ville, departement, code_postal, idStoragePlace}) => {
+      var index = context.state.lieuxStockages.findIndex(storageplace => storageplace.id == idStoragePlace)
+      context.state.lieuxStockages.splice(index, 1)      
+      const updateStoragePlace = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.updateStoragePlace,        
+        {
+          libelle, 
+          id_entreprise:1, 
+          adresse, 
+          ville, 
+          departement, 
+          code_postal, 
+          idStoragePlace
+        }
+      );                           
+      return context.commit(MUTATIONS.UDPATE_STORAGE_PLACE, updateStoragePlace.data.update_armadacar_lieux_de_stockage.returning[0]);
+    },
+    async [ACTIONS.DELETE_STORAGE_PLACE](context, {identifiantStoragePlace}) {      
+      //Permet de récupérer l'index du lieu de stockage de la liste pour le supprimé du store.      
+      var index = context.state.lieuxStockages.findIndex(storageplace => storageplace.id == identifiantStoragePlace)      
+      context.state.lieuxStockages.splice(index, 1)
+      await fetchAsync(
+        context.state.token,
+        fetcher,                        
+        mutations.deleteStoragePlace,
+        {          
+          idStoragePlace: identifiantStoragePlace
+        }
+      );
+      context.commit(MUTATIONS.DELETE_STORAGE_PLACE, false, identifiantStoragePlace);
     }
   }
 });

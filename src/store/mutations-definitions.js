@@ -11,4 +11,7 @@ export const MUTATIONS = {
     DELETE_CAR: "removeCar",
     UDPATE_CAR: "updateCar",
     SET_USERS: "setUsers",
+    ADD_STORAGE_PLACE: "addStoragePlace",
+    DELETE_STORAGE_PLACE: "removeStoragePlace",
+    UDPATE_STORAGE_PLACE: "updateStoragePlace",
 }

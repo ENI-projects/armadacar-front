@@ -8,6 +8,9 @@ import GestionVehiculeComponent from '@/components/vehicule/VehiculeList.vue'
 import GestionUserComponent from '@/components/user/UserList.vue'
 import AddUpdateUserComponent from '@/components/user/AddUpdateUser.vue'
 import DetailUserComponent from '@/components/user/DetailUser.vue'
+import AddUpdateStoragePlaceComponent from '@/components/storageplace/AddUpdateStoragePlace.vue'
+import DetailStoragePlaceComponent from '@/components/storageplace/DetailStoragePlace.vue'
+import GestionStoragePlaceComponent from '@/components/storageplace/StoragePlaceList.vue'
 
 Vue.use(VueRouter);
 
@@ -83,6 +86,37 @@ export default new VueRouter({
             path: '/admin/gestionUser/detailUser', 
             component: DetailUserComponent,
             props: true,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
+        { name:'addStoragePlace',
+            path: '/admin/gestionStoragePlace/addStoragePlace', 
+            component: AddUpdateStoragePlaceComponent,
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
+        { name:'updateStoragePlace',
+            path: '/admin/gestionStoragePlace/updateStoragePlace', 
+            component: AddUpdateStoragePlaceComponent,
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
+        { name:'detailStoragePlace',
+            path: '/admin/gestionStoragePlace/detailStoragePlace/', 
+            component: DetailStoragePlaceComponent,
+            props: true,
+            meta: {
+                requireBeAdmin: true
+            }
+        },
+        { name:'gestionStoragePlace',
+            path: '/admin/gestionStoragePlace/', 
+            component: GestionStoragePlaceComponent,
             meta: {
                 requireBeAdmin: true
             }

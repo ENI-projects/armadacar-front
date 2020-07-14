@@ -16,5 +16,18 @@ export const queries = {
                 libelle
             }     
         }
-      }`
+      }`,
+    storagePlaceList: 
+        `query
+        {
+          armadacar_lieux_de_stockage (order_by: {id: asc}) {
+          id
+          libelle
+          id_entreprise
+          adresse
+          ville
+          departement
+          code_postal         
+      }
+    }`, 
 };
