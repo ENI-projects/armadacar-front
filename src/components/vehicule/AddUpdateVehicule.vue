@@ -80,10 +80,16 @@
             <label>Lieux de stockage* : </label>
           </b-col>
           <b-col sm="8">
-            <b-form-select name="place" id="input-8" v-model="form.id_lieux_de_stockage" :options="places" required></b-form-select>
+            <b-form-select v-model="form.id_lieux_de_stockage">                   
+              <option v-for="option in options" :key="option.id" :value="option.id">
+              {{option.libelle}}
+              </option>
+            </b-form-select>
           </b-col>
         </b-row>
       </b-form-group>
+
+      <p v-if="this.error" id="error">{{ error }}</p>
 
       <b-row id="margin-button">
         <b-col md="1" offset-md="4">
@@ -107,7 +113,8 @@ store.dispatch(ACTIONS.SET_ENERGIES);
 
 export default {  
   data() {           
-    return {         
+    return {      
+      error: "",   
       form: {
         marque: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.marque,
         modele: this.$route.params.vehicule == null ? '' : this.$route.params.vehicule.modele,      
@@ -121,41 +128,60 @@ export default {
     }      
   },
   computed: {      
-    places: () => store.state.lieuxStockages,
+    options: () => store.state.lieuxStockages,
     energies: () => store.state.energies    
   },
   methods: {
     onSubmit() {
       const form = this.form;
-      if (this.$route.params.vehicule != null)
-      {
-          store.dispatch(ACTIONS.UDPATE_CAR, {        
-          marque: form.marque,
-          modele: form.modele,
-          immatriculation: form.immatriculation,
-          energie: form.energie,
-          nombre_de_chevaux: form.nombre_de_chevaux,
-          nombre_de_places: form.nombre_de_places,
-          id_lieux_de_stockage: form.id_lieux_de_stockage,
-          idVoiture: this.$route.params.vehicule.id
-        }).then(() => {
-          this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
-        })
-      }
-      else
-      {
-          store.dispatch(ACTIONS.ADD_CAR, {        
-          marque: form.marque,
-          modele: form.modele,
-          immatriculation: form.immatriculation,
-          energie: form.energie,
-          nombre_de_chevaux: form.nombre_de_chevaux,
-          nombre_de_places: form.nombre_de_places,
-          id_lieux_de_stockage: form.id_lieux_de_stockage          
-        }).then(() => {
-          this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
-        })  
-      }      
+
+      var regImmatriculation = new RegExp(/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/);
+
+      if (!form.marque || form.marque === "") {
+        this.error = "Veuillez renseigner la marque";
+      } else if (!form.modele || form.modele === "") {
+        this.error = "Veuillez renseigner le modèle";
+      }   else if (!form.energie || form.energie === "") {
+        this.error = "Veuillez choisir une énergie";
+      } else if (!form.nombre_de_chevaux || form.nombre_de_chevaux === "") {
+        this.error = "Veuillez renseigner le nombre de chevaux";
+      } else if(!form.immatriculation || form.immatriculation === "" || regImmatriculation.test(form.immatriculation) ==false) {
+        this.error = "Veuillez renseigner l'immatriculation au format valide";
+      } else if (!form.nombre_de_places || form.nombre_de_places === "") {
+        this.error = "Veuillez renseigner le nombre de place";
+      } else if (!form.id_lieux_de_stockage || form.id_lieux_de_stockage === "") {
+        this.error = "Veuillez choisir un lieu de stockage";
+      } else{
+        if (this.$route.params.vehicule != null)
+        {
+            store.dispatch(ACTIONS.UDPATE_CAR, {        
+            marque: form.marque,
+            modele: form.modele,
+            immatriculation: form.immatriculation,
+            energie: form.energie,
+            nombre_de_chevaux: form.nombre_de_chevaux,
+            nombre_de_places: form.nombre_de_places,
+            id_lieux_de_stockage: form.id_lieux_de_stockage,
+            idVoiture: this.$route.params.vehicule.id
+          }).then(() => {
+            this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
+          })
+        }
+        else
+        {
+            store.dispatch(ACTIONS.ADD_CAR, {        
+            marque: form.marque,
+            modele: form.modele,
+            immatriculation: form.immatriculation,
+            energie: form.energie,
+            nombre_de_chevaux: form.nombre_de_chevaux,
+            nombre_de_places: form.nombre_de_places,
+            id_lieux_de_stockage: form.id_lieux_de_stockage         
+          }).then(() => {
+            this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
+          })  
+        }  
+      }    
     }
   }
 }

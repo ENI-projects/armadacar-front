@@ -10,8 +10,8 @@
             <h5>Filtre sur lieux de stockage : </h5>                        
             <select v-model="search" class="custom-select custom-select-sm" id="selectLieuStockage">
                 <option>Tout</option>
-                <option v-for="option in options" v-bind:key="option.text">
-                  {{option.text}}
+                <option v-for="option in options" v-bind:key="option.id">
+                  {{option.libelle}}
                 </option>
             </select>
         </div>        
@@ -88,7 +88,7 @@ export default
         modes: ['single'],
         argsIdVehiculeClicked: null,    
         confirmRemove: "",
-        search: '',
+        search: 'Tout',
         perPage: 6,
         currentPage: 1,
         fields: [
