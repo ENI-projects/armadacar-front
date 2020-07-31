@@ -4,7 +4,7 @@
         <div>
             <h1><b>Détail du véhicule</b></h1>   
         </div>
-        <b-container fluid>
+        <b-container fluid class="containerDetailVehicule">
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
@@ -62,7 +62,7 @@
             </b-form-group>
 
             <b-row id="margin-button">
-                <b-col md="1" offset-md="5">
+                <b-col md="2" offset-md="5">
                     <router-link :to="{name: 'gestionVehicule'}"><b-button href = "/" variant="primary">Retour</b-button></router-link>
                 </b-col>
             </b-row>    
@@ -87,5 +87,9 @@ export default{
   #margin-button
   {
     margin-bottom:50px;
+  }
+
+  .containerDetailVehicule{
+      text-align: center;
   }
 </style>

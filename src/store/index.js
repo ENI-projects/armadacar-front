@@ -15,12 +15,20 @@ export default new Vuex.Store({
     courses: [],
     events: [],
     vehicules: [],
+    course: [],
+    resumeCourse : [],
     car: [],
+    idCar: [],
     lieuxStockages: [],
     energies: [],
     isDelete: "",
     users: [],
-    storagePlace: [],
+    storagePlace: [],    
+    remarque: "",
+    countImmatriculation: "",
+    historiqueDeplacements : [],
+    historiqueEmprunts : [],
+    courseByIdResume: []
   },
   mutations: {
     [MUTATIONS.SET_COURSES]: (state, courses) => {
@@ -72,92 +80,77 @@ export default new Vuex.Store({
       state.lieuxStockages.push(storagePlace)      
       state.storagePlace = storagePlace; 
     }, 
+    [MUTATIONS.ADD_COURSE]: (state, course) => {            
+      state.course.push(course)      
+      state.course = course;      
+    },
+    [MUTATIONS.SET_ID_CAR]: (state, idCar) => {
+      state.idCar = idCar;
+    },
+    [MUTATIONS.UDPATE_CAR]: (state, car) => {            
+      state.vehicules.push(car)      
+      state.car = car;      
+    },
+    [MUTATIONS.ADD_USERS_COURSES]: (state, course) => {      
+      state.resumeCourse = course;
+    },
+    [MUTATIONS.UPDATE_REMARQUE]: (state, remarque) => {
+      state.remarque = remarque
+    },
+    [MUTATIONS.SET_COUNT_IMMATRICULATION]: (state, countImmatriculation) => {
+      state.countImmatriculation = countImmatriculation
+    },
+    [MUTATIONS.SET_COURSE_DEPLACEMENT]: (state, historiqueDeplacements) => {
+      state.historiqueDeplacements = historiqueDeplacements
+    },
+    [MUTATIONS.SET_COURSE_EMPRUNT]: (state, historiqueEmprunts) => {
+      state.historiqueEmprunts = historiqueEmprunts
+    },
+    [MUTATIONS.SET_COURSE_BY_ID_RESUME]: (state, courseByIdResume) => {
+      state.courseByIdResume = courseByIdResume
+    }
   },
   actions: {
     [ACTIONS.SET_COURSES]: async (context) => {
+      const lastEventList = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectFourLastCourse
+      );      
+      var objLastEventList = [];
+      lastEventList.data.armadacar_courses.forEach(element => {          
+        objLastEventList.push(
+          {
+            start: element.lieu_depart,
+            arrival: element.lieu_arrivee,            
+          }          
+        )                          
+      });
       context.commit(
         MUTATIONS.SET_COURSES,
-        // NEXT TIME WILL MAKE REQUEST
-        [
-          {
-            start: "Paris",
-            arrival: "Nantes"
-          },
-          {
-            start: "Montreal",
-            arrival:"Shangai"
-          },
-          {
-            start: "Lune",
-            arrival: "Pluton"
-          },
-          {
-            start: "Montreal",
-            arrival: "Pôle Nord"
-          }
-        ]
-      );
+        objLastEventList
+      );      
     },
     [ACTIONS.SET_EVENTS]: async (context) => {
+      const eventList = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectAllCourse
+      );      
+      var objEvents = [];
+      eventList.data.armadacar_courses.forEach(element => {          
+        objEvents.push(
+          {
+            id: element.id,
+            title: element.lieu_depart + "-" + element.lieu_arrivee,
+            start: element.date_debut,
+            end: element.date_fin
+          }          
+        )                          
+      });
       context.commit(
         MUTATIONS.SET_EVENTS,
-        // NEXT TIME WILL MAKE REQUEST
-        [
-          {
-            title: 'All Day Event',
-            start: '2020-02-01'
-          },
-          {
-            title: 'Long Event',
-            start: '2020-02-07',
-            end: '2020-02-10'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2020-02-09T16:00:00'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2020-02-16T16:00:00'
-          },
-          {
-            title: 'Conference',
-            start: '2020-02-11',
-            end: '2020-02-13'
-          },
-          {
-            title: 'Meeting',
-            start: '2020-02-12T10:30:00',
-            end: '2020-02-12T12:30:00'
-          },
-          {
-            title: 'Lunch',
-            start: '2020-02-12T12:00:00'
-          },
-          {
-            title: 'Meeting',
-            start: '2020-02-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2020-02-12T17:30:00'
-          },
-          {
-            title: 'Dinner',
-            start: '2020-02-12T20:00:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2020-02-13T07:00:00'
-          },
-          {
-            title: 'Click for Google',
-            url: 'http://google.com/',
-            start: '2020-02-28'
-          }
-        ]
+        objEvents        
       );
     },
     [ACTIONS.SET_VEHICULES]: async (context) => {      
@@ -339,6 +332,116 @@ export default new Vuex.Store({
         }
       );
       context.commit(MUTATIONS.DELETE_STORAGE_PLACE, false, identifiantStoragePlace);
-    }
-  }
+    },    
+    [ACTIONS.ADD_COURSE]: async (context, {dateDebut, dateFin, lieuDepart, lieuArrivee, idVoiture, allerRetour}) => {
+      const addCourse = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.insertCourse,
+        {
+          dateDebut,
+          dateFin,
+          lieuDepart,
+          lieuArrivee,
+          idVoiture,
+          allerRetour    
+        }
+      );               
+      return context.commit(MUTATIONS.ADD_COURSE, addCourse.data.insert_armadacar_courses.returning[0]);
+    },
+    [ACTIONS.SET_ID_CAR]: async (context, {dateDebut, nbrePassager}) => {      
+      const idCar = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectIdCarAvailable,
+        {
+          nbrePassager,
+          dateDebut          
+        }
+      );      
+      context.commit(
+        MUTATIONS.SET_ID_CAR,
+        idCar.data.armadacar_search_course_by_date_and_nbplace[0]
+      );
+    },
+    [ACTIONS.ADD_USERS_COURSES]: async (context, {objectsPassager}) => {      
+      const addUtilisateurCourse = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.insertUtilisateursCourses,
+        {
+          objectsPassager : objectsPassager          
+        }
+      );                     
+      return context.commit(MUTATIONS.ADD_USERS_COURSES, addUtilisateurCourse.data.insert_armadacar_utilisateurs_courses.returning[0]);
+    },
+    [ACTIONS.UPDATE_REMARQUE]: async (context, {idCourse, remarque}) => {           
+      const updateRemarque = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.updateRemarqueCourse,        
+        {
+          remarque,
+          id: idCourse        
+        }
+      );                  
+      return context.commit(MUTATIONS.UPDATE_REMARQUE, updateRemarque.data.update_armadacar_courses.affected_rows);
+    },
+    [ACTIONS.SET_COUNT_IMMATRICULATION]: async (context, {immatriculation}) => {                  
+      const countImmatriculation = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectCountImmatriculationExist,
+        {
+          immatriculation          
+        }
+      );            
+      context.commit(
+        MUTATIONS.SET_COUNT_IMMATRICULATION,
+        countImmatriculation.data.armadacar_voitures_aggregate.aggregate.count
+      );
+    },
+    [ACTIONS.SET_COURSE_DEPLACEMENT]: async (context, {idUser}) => {
+      const historiqueDeplacements = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectCourseDeplacementsByUser,
+        {
+          id: idUser
+        }
+      );            
+      context.commit(
+        MUTATIONS.SET_COURSE_DEPLACEMENT,
+        historiqueDeplacements.data.armadacar_courses
+      );
+    },
+    [ACTIONS.SET_COURSE_EMPRUNT]: async (context, {idUser}) => {
+      const historiqueEmprunts = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectCourseEmpruntsByUser,
+        {
+          id: idUser
+        }
+      );            
+      context.commit(
+        MUTATIONS.SET_COURSE_EMPRUNT,
+        historiqueEmprunts.data.armadacar_courses
+      );
+    },
+    [ACTIONS.SET_COURSE_BY_ID_RESUME]: async (context, {idCourse}) => {
+      const historiqueEmprunts = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectCourseResume,
+        {
+          idCourse: idCourse
+        }
+      );            
+      context.commit(
+        MUTATIONS.SET_COURSE_BY_ID_RESUME,
+        historiqueEmprunts.data.armadacar_courses[0]
+      );
+    },
+  } 
 });

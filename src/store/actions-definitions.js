@@ -14,4 +14,12 @@ export const ACTIONS = {
     ADD_STORAGE_PLACE: "addStoragePlace",
     DELETE_STORAGE_PLACE: "removeStoragePlace",
     UDPATE_STORAGE_PLACE: "updateStoragePlace",
+    ADD_COURSE: "insertCourse",
+    SET_ID_CAR: "selectIdCarAvailable",
+    ADD_USERS_COURSES: "insertUtilisateursCourses",
+    UPDATE_REMARQUE: "updateRemarqueCourse",
+    SET_COUNT_IMMATRICULATION: "selectCountImmatriculationExist",
+    SET_COURSE_DEPLACEMENT: "selectCourseDeplacementsByUser",
+    SET_COURSE_EMPRUNT: "selectCourseEmpruntsByUser",
+    SET_COURSE_BY_ID_RESUME: "selectCourseResume"
 }

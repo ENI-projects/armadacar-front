@@ -18,16 +18,16 @@ import ListCourses from '@/components/home/ListCourses.vue'
 import store from "@/store";
 import { ACTIONS } from "@/store/actions-definitions";
 
+store.dispatch(ACTIONS.SET_COURSES);
 export default {
   name: 'App',
   components: {
     CalendarComponent,
     ListCourses
   },
-  computed: {
-    lastCourses: () => {
-      store.dispatch(ACTIONS.SET_COURSES);
-      return store.state.courses
+  data() {
+    return {
+      lastCourses: store.state.courses
     }
   }
 }

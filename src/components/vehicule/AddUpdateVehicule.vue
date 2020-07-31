@@ -101,17 +101,30 @@
       </b-row>
 
     </b-container>  
+    <b-modal
+      id="alertImmatriculationExist"
+      title="Attention"
+      @ok="okModelButtonClicked"
+    >
+      <p>L'immatriculation existe déjà pour un véhicule.</p>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import store from '@/store';
 import { ACTIONS } from "@/store/actions-definitions";
-
+import { BModal, VBModal } from 'bootstrap-vue';
 store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);
 store.dispatch(ACTIONS.SET_ENERGIES);
 
 export default {  
+  directives: {
+    'b-modal': VBModal
+  },
+  components: {    
+    'b-modal': BModal
+  },
   data() {           
     return {      
       error: "",   
@@ -153,36 +166,51 @@ export default {
         this.error = "Veuillez choisir un lieu de stockage";
       } else{
         if (this.$route.params.vehicule != null)
+      {
+          store.dispatch(ACTIONS.UDPATE_CAR, {        
+          marque: form.marque,
+          modele: form.modele,
+          immatriculation: form.immatriculation,
+          energie: form.energie,
+          nombre_de_chevaux: form.nombre_de_chevaux,
+          nombre_de_places: form.nombre_de_places,
+          id_lieux_de_stockage: form.id_lieux_de_stockage,
+          idVoiture: this.$route.params.vehicule.id
+        }).then(() => {
+          this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
+        })
+      }
+      else
+      {
+        store.dispatch(ACTIONS.SET_COUNT_IMMATRICULATION, 
         {
-            store.dispatch(ACTIONS.UDPATE_CAR, {        
-            marque: form.marque,
-            modele: form.modele,
-            immatriculation: form.immatriculation,
-            energie: form.energie,
-            nombre_de_chevaux: form.nombre_de_chevaux,
-            nombre_de_places: form.nombre_de_places,
-            id_lieux_de_stockage: form.id_lieux_de_stockage,
-            idVoiture: this.$route.params.vehicule.id
-          }).then(() => {
-            this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
-          })
-        }
-        else
-        {
-            store.dispatch(ACTIONS.ADD_CAR, {        
-            marque: form.marque,
-            modele: form.modele,
-            immatriculation: form.immatriculation,
-            energie: form.energie,
-            nombre_de_chevaux: form.nombre_de_chevaux,
-            nombre_de_places: form.nombre_de_places,
-            id_lieux_de_stockage: form.id_lieux_de_stockage         
-          }).then(() => {
-            this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
-          })  
-        }  
+          immatriculation: form.immatriculation
+        }).then(() => 
+          {          
+            if (store.state.countImmatriculation == 0)
+            {
+              store.dispatch(ACTIONS.ADD_CAR, {        
+                  marque: form.marque,
+                  modele: form.modele,
+                  immatriculation: form.immatriculation,
+                  energie: form.energie,
+                  nombre_de_chevaux: form.nombre_de_chevaux,
+                  nombre_de_places: form.nombre_de_places,
+                  id_lieux_de_stockage: form.id_lieux_de_stockage          
+              }).then(() => {
+                  this.$router.push({ name: 'detailVehicule', params: { vehicule: store.state.car }})   
+              })                        
+            }
+            else{
+              this.$bvModal.show("alertImmatriculationExist")            
+            }            
+          })            
+        }    
       }    
-    }
+    },              
+    okModelButtonClicked() {
+        this.$bvModal.hide("alertImmatriculationExist")
+      },
   }
 }
 </script>

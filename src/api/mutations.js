@@ -162,4 +162,63 @@ export const mutations =
       affected_rows
     }
   }`,
+  insertCourse:
+  `mutation 
+  (
+    $dateDebut: timestamptz!, 
+    $dateFin: timestamptz!, 
+    $lieuDepart: String!, 
+    $lieuArrivee: String!, 
+    $idVoiture: Int!,
+    $allerRetour: Boolean!
+  ) {
+    insert_armadacar_courses(objects: 
+      {
+        date_debut: $dateDebut, 
+        date_fin: $dateFin, 
+        lieu_depart: $lieuDepart, 
+        lieu_arrivee: $lieuArrivee, 
+        id_voiture: $idVoiture,
+        aller_retour: $allerRetour
+      }) {
+      returning {      
+        id      
+      }
+    }
+  }`,
+  insertUtilisateursCourses:  
+  `mutation insert_multiple_utilisateurs_courses($objectsPassager: [armadacar_utilisateurs_courses_insert_input!]!) {
+    insert_armadacar_utilisateurs_courses(objects: $objectsPassager) {
+      returning {
+        course {
+          id
+          date_fin
+          date_debut
+          aller_retour
+          id_voiture
+          lieu_arrivee
+          lieu_depart
+          remarque
+          voiture {
+            id
+            immatriculation
+            modele
+            marque
+            nombre_de_places
+          }
+          utilisateurs_courses_aggregate(where: {createur: {_eq: false}}) {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    }
+  }`
+  ,updateRemarqueCourse: 
+  `mutation ($remarque: String!, $id: Int!) {
+    update_armadacar_courses(where: {id: {_eq: $id}}, _set: {remarque: $remarque}) {
+      affected_rows
+    }
+  }`
 }

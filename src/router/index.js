@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeComponent from '@/views/Home.vue'
-import NewRaceComponent from '@/views/AddCourse.vue'
+import NewRaceComponent from '@/components/course/AddCourse.vue'
 import AddUpdateVehiculeComponent from '@/components/vehicule/AddUpdateVehicule.vue'
 import DetailVehiculeComponent from '@/components/vehicule/DetailVehicule.vue'
 import GestionVehiculeComponent from '@/components/vehicule/VehiculeList.vue'
@@ -11,6 +11,8 @@ import DetailUserComponent from '@/components/user/DetailUser.vue'
 import AddUpdateStoragePlaceComponent from '@/components/storageplace/AddUpdateStoragePlace.vue'
 import DetailStoragePlaceComponent from '@/components/storageplace/DetailStoragePlace.vue'
 import GestionStoragePlaceComponent from '@/components/storageplace/StoragePlaceList.vue'
+import DetailCourseComponent from '@/components/course/DetailCourse.vue'
+import HistoriqueComponent from '@/components/course/HistoriqueCourse.vue'
 
 Vue.use(VueRouter);
 
@@ -121,6 +123,18 @@ export default new VueRouter({
                 requireBeAdmin: true
             }
         },
+        {
+            name: 'detailCourse',
+            path: '/recapitulatifDeplacement',
+            props: true,
+            component: DetailCourseComponent
+        },
+        {
+            name: 'historiqueCourse',
+            path: '/historique',
+            props: true,
+            component: HistoriqueComponent
+        }
     ]
 })
 
