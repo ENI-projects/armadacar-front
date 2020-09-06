@@ -15,7 +15,7 @@ export default new Vuex.Store({
     courses: [],
     events: [],
     vehicules: [],
-    course: [],
+    newCourse: [],
     resumeCourse : [],
     car: [],
     idCar: [],
@@ -81,8 +81,8 @@ export default new Vuex.Store({
       state.storagePlace = storagePlace; 
     }, 
     [MUTATIONS.ADD_COURSE]: (state, course) => {            
-      state.course.push(course)      
-      state.course = course;      
+      //state.newCourse.push(course)
+      state.newCourse = course;      
     },
     [MUTATIONS.SET_ID_CAR]: (state, idCar) => {
       state.idCar = idCar;
@@ -363,18 +363,7 @@ export default new Vuex.Store({
         MUTATIONS.SET_ID_CAR,
         idCar.data.armadacar_search_course_by_date_and_nbplace[0]
       );
-    },
-    [ACTIONS.ADD_USERS_COURSES]: async (context, {objectsPassager}) => {      
-      const addUtilisateurCourse = await fetchAsync(
-        context.state.token,
-        fetcher,
-        mutations.insertUtilisateursCourses,
-        {
-          objectsPassager : objectsPassager          
-        }
-      );                     
-      return context.commit(MUTATIONS.ADD_USERS_COURSES, addUtilisateurCourse.data.insert_armadacar_utilisateurs_courses.returning[0]);
-    },
+    },    
     [ACTIONS.UPDATE_REMARQUE]: async (context, {idCourse, remarque}) => {           
       const updateRemarque = await fetchAsync(
         context.state.token,

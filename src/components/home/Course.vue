@@ -1,7 +1,7 @@
 <template>
-  <div class="course">
-    <h5>Départ : {{ start }}</h5>
-    <h5>Arriver : {{ arrival }}</h5>
+  <div class=" thumbnail course">
+    <h5 style="color: white;">Départ : {{ start }}</h5>
+    <h5 style="color: white;">Arriver : {{ arrival }}</h5>
   </div>
 </template>
 
@@ -16,11 +16,17 @@ export default {
 </script>
 
 <style scoped>
-.course {
-  border-radius: 20px;
-  border: 2px solid #78C2AD;
-  background-color:#78C2AD;
-  margin: 15px;
-  width: 90%;
+.thumbnail:hover{  
+  opacity: 0.8;
 }
+
+.course {
+  border-radius: 5px;
+  border: 2px solid #00A5CF;
+  background-color: #00A5CF;
+  margin: 15px;
+  margin-left: -35px;
+  width: 120%;  
+}
+
 </style>

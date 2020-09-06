@@ -116,12 +116,7 @@ export const queries = {
               modele
               marque
               nombre_de_places
-            }
-            utilisateurs_courses_aggregate(where: {createur: {_eq: false}}) {
-              aggregate {
-                count
-              }
-            }
+            }            
           }  
       }
       `

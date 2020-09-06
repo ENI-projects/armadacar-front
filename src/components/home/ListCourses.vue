@@ -25,10 +25,10 @@ export default {
 
 <style>
 .listCourses {
-  border-radius: 30px;
-  text-align: center;
-  border: 2px solid var(--grey);
-  padding: 10px;  
+  border-radius: 5px;
+  text-align: center;  
+  border: 1px solid #00A5CF;
+  padding: 56px;
 }
 
 .titleList {
@@ -40,9 +40,10 @@ export default {
   .listCourses {
     border-radius: 30px;
     text-align: center;
-    border: 2px solid var(--grey);
-    padding: 10px;
+    border: 1px solid #00A5CF;
+    padding: 56px;
     margin-top: 10px;
   }
 }
+
 </style>

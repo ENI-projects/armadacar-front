@@ -183,35 +183,18 @@ export const mutations =
       }) {
       returning {      
         id      
-      }
-    }
-  }`,
-  insertUtilisateursCourses:  
-  `mutation insert_multiple_utilisateurs_courses($objectsPassager: [armadacar_utilisateurs_courses_insert_input!]!) {
-    insert_armadacar_utilisateurs_courses(objects: $objectsPassager) {
-      returning {
-        course {
-          id
-          date_fin
-          date_debut
-          aller_retour
-          id_voiture
-          lieu_arrivee
-          lieu_depart
-          remarque
-          voiture {
-            id
-            immatriculation
-            modele
-            marque
-            nombre_de_places
-          }
-          utilisateurs_courses_aggregate(where: {createur: {_eq: false}}) {
-            aggregate {
-              count
-            }
-          }
-        }
+        id_voiture
+        date_fin
+        date_debut
+        aller_retour
+        lieu_arrivee
+        lieu_depart
+        remarque
+        voiture {
+          modele
+          immatriculation
+          nombre_de_places
+        }      
       }
     }
   }`

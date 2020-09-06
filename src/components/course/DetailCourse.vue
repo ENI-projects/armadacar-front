@@ -18,27 +18,7 @@
                     </div>
                 </div>                
             </div>
-            <div class="col-lg-5 col-md-12">
-                <h4>Passagers <span>{{nombrePassager}}</span></h4>
-                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    <table class="table table-bordered table-striped mb-0">                        
-                        <tbody class="tbodyTablePassager">
-                        <tr>
-                            <th>Bobby</th>                            
-                        </tr>
-                        <tr>
-                            <th>Amélie</th>                            
-                        </tr>                        
-                        <tr>
-                            <th>John</th>                            
-                        </tr>                        
-                        <tr>
-                            <th>Teddy</th>                            
-                        </tr>                        
-                        </tbody>
-                    </table>
-                </div>
-                <br/>
+            <div class="col-lg-5 col-md-12">                
                 <h4>Véhicule prêter : </h4>
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-6">
@@ -76,7 +56,7 @@
             </div>
             <div class="col-lg-5 col-md-6 col-sm-5 col-5">
                 <h4>Remarques</h4>
-                <textarea v-model="remarque" id="remarque" name="remarque" rows="5" cols="68">Aucune remarque</textarea><br/>
+                <textarea v-model="remarque" id="remarque" name="remarque" rows="5" cols="68"></textarea><br/>
                 
                 <b-alert
                     :show="dismissCountDown"
@@ -123,11 +103,11 @@ export default{
 
         var heureDepart = ("0" + dateDepart.getHours()).slice(-2) + "h" + ("0" + dateDepart.getMinutes()).slice(-2)
         var heureRetour = ("0" + dateRetour.getHours()).slice(-2) + "h" + ("0" + dateRetour.getMinutes()).slice(-2)
-        var placeRestante = this.$route.params.course.voiture.nombre_de_places - this.$route.params.course.utilisateurs_courses_aggregate.aggregate.count        
+        var placeRestante = this.$route.params.course.voiture.nombre_de_places - 1//- this.$route.params.course.utilisateurs_courses_aggregate.aggregate.count        
         return {  
             dismissSecs: 3,
             dismissCountDown: 0,   
-            remarque: "",
+            remarque: this.$route.params.course.remarque,
 
             allerRetour: this.$route.params.course.aller_retour, 
             lieuDepart: this.$route.params.course.lieu_depart,
@@ -139,8 +119,7 @@ export default{
             dateRetourChamps: newFormatDateRetour,
             heureDepartChamps: heureDepart,
             heureRetourChamps: heureRetour,
-            placeRestante: placeRestante,
-            nombrePassager: "(" + this.$route.params.course.utilisateurs_courses_aggregate.aggregate.count + "/" + this.$route.params.course.voiture.nombre_de_places + ")"
+            placeRestante: placeRestante       
         }
     },
     methods: {

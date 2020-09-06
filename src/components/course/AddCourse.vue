@@ -71,44 +71,7 @@
                     </b-col>
                     <b-col sm="4">
                         <b-form-input v-model="form.nombre_de_places" name="nbplaces" type="number" id="input-7" required ></b-form-input>
-                    </b-col>                                                      
-                    <b-col v-if="isHidden == true" sm="2">
-                            <a  v-on:click="isHidden = false">Ajouter des passagers</a>
-                    </b-col>
-                    <div class="row" id="divPassagers" v-if="!isHidden">
-                        <b-col sm="5">
-                            <label class="paddingLeft">Listes des passagers : </label>
-                        </b-col>
-                        <b-col sm="4">
-                            <select v-model="selectPassager" class="custom-select custom-select-sm" id="selectPassager">
-                                <option v-for="passager in passagers" v-bind:key="passager.name">
-                                    {{passager.id}} - {{passager.name}}
-                                </option>
-                            </select>                        
-                        </b-col>
-                        <b-col sm="1">
-                            <button type="button" @click="addTablePassager" class="btnAjoutPassager btn btn-circle btn-sm"><span class="spanAjoutPassager">+</span></button>
-                        </b-col> 
-                        <br/>
-                        <b-col>
-                            <b-table
-                            selectable
-                            :select-mode="selectMode"            
-                            id="my-tablePassager"
-                            class="table-striped"
-                            :fields="fields"
-                            :items="rows"
-                            >
-                                <template v-slot:cell(actions)="data">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <a @click="handleDeletePassagerClick(data.value.name)"><img width="30px" height="25px" src="@/assets/images/crossDelete.jpg" ></a>
-                                    </div>                                    
-                                </div>
-                                </template>
-                            </b-table>
-                        </b-col>
-                    </div> 
+                    </b-col>                                                                                  
                 </b-row>                
                 <b-modal
                     id="information"
@@ -152,8 +115,7 @@ export default
         form: {
         },        
         show: true,
-        language: fr,   
-        isHidden: true,
+        language: fr,          
         modes: ['single'],         
         selectPassager: '',
         selectMode: 'single',
@@ -257,39 +219,16 @@ export default
                     lieuArrivee: this.form.villeArrivee,
                     idVoiture: store.state.idCar.id,
                     allerRetour: this.allerRetour
-                    }).then(() => {           
-                        var JsonStr = '{"objectsPassager":[]}'
-                        var JsonObjectPassager = JSON.parse(JsonStr);
-
-                        JsonObjectPassager["objectsPassager"].push({
-                            // id_utilisateur: store.state.userId,
-                            id_utilisateur: "1",
-                            id_course: store.state.course.id,
-                            createur: true
-                        })                    
-                        if (this.arrayTablePassager.length > 0)
-                        {                   
-                            this.arrayTablePassager.forEach(element => {
-                                JsonObjectPassager["objectsPassager"].push({
-                                    id_utilisateur: element.id,
-                                    id_course: store.state.course.id,
-                                    createur: false
-                                })
-                            });   
-                        }                                        
-                        store.dispatch(ACTIONS.ADD_USERS_COURSES, {
-                            objectsPassager : JsonObjectPassager.objectsPassager
-                        })
-                        .then(() => {
-                            store.state.events.push({
-                                title: this.form.villeDepart + "-" + this.form.villeArrivee,
-                                id: store.state.course.id,
-                                start: newFormatDateDepart + "T" + newFormatHeureDepart + "+02:00",
-                                end: newFormatDateRetour + "T" + newFormatHeureRetour + "+02:00"
-                            })                                                                    
-                            this.$router.push({ name: 'detailCourse', params: { course: store.state.resumeCourse.course}});
-                        })
-                    })
+                    }).then(() => {
+                            // store.state.events.push({
+                            //     title: this.form.villeDepart + "-" + this.form.villeArrivee,
+                            //     id: store.state.course.id,
+                            //     start: newFormatDateDepart + "T" + newFormatHeureDepart + "+02:00",
+                            //     end: newFormatDateRetour + "T" + newFormatHeureRetour + "+02:00"
+                            // })                           
+                            //console.log(store.state.newCourse)
+                            this.$router.push({ name: 'detailCourse', params: { course: store.state.newCourse}});
+                        })                
                 }
                 else{
                     this.confirmAddEvent = `Aucune voiture de disponible pour ce déplacement !`                    

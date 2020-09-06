@@ -13,6 +13,7 @@ import store from '@/store';
 import { ACTIONS } from "@/store/actions-definitions";
 
 store.dispatch(ACTIONS.SET_EVENTS);
+
 export default {
   directives: {    
     'b-modal': VBModal
@@ -20,9 +21,9 @@ export default {
   components: {
     FullCalendar, // make the <FullCalendar> tag available
     'b-modal': BModal
-  },    
-  data(){    
-    return {      
+  },      
+  data(){            
+    return {       
       calendarOptions: {
         headerToolbar: {
             left: 'prev,next today',
@@ -42,13 +43,14 @@ export default {
         weekends: true,     
         themeSystem: 'boostrap',        
         locale: languagePlugin,
-        eventClick: this.handleEventClick,
-        events: store.state.events,
+        eventClick: this.handleEventClick,        
+        events: store.state.events
       },
+      
       confirmAddEvent: "",
       calendarTheme: 'minty'            
     }    
-  }, 
+  },   
   methods: {
      handleEventClick(clickInfo) 
      {
