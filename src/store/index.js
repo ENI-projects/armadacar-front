@@ -28,7 +28,7 @@ export default new Vuex.Store({
     countImmatriculation: "",
     historiqueDeplacements : [],
     historiqueEmprunts : [],
-    courseByIdResume: []
+    courseByIdResume: [],    
   },
   mutations: {
     [MUTATIONS.SET_COURSES]: (state, courses) => {
@@ -80,8 +80,7 @@ export default new Vuex.Store({
       state.lieuxStockages.push(storagePlace)      
       state.storagePlace = storagePlace; 
     }, 
-    [MUTATIONS.ADD_COURSE]: (state, course) => {            
-      //state.newCourse.push(course)
+    [MUTATIONS.ADD_COURSE]: (state, course) => {                  
       state.newCourse = course;      
     },
     [MUTATIONS.SET_ID_CAR]: (state, idCar) => {
@@ -90,6 +89,9 @@ export default new Vuex.Store({
     [MUTATIONS.UDPATE_CAR]: (state, car) => {            
       state.vehicules.push(car)      
       state.car = car;      
+    },
+    [MUTATIONS.ADD_USERS_COURSES]: (state, course) => {      
+      state.resumeCourse = course;
     },
     [MUTATIONS.ADD_USERS_COURSES]: (state, course) => {      
       state.resumeCourse = course;
@@ -108,6 +110,9 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_COURSE_BY_ID_RESUME]: (state, courseByIdResume) => {
       state.courseByIdResume = courseByIdResume
+    },
+    [MUTATIONS.SET_ADD_EVENT_TO_LIST_EVENTS]: (state, newEvent) => {
+      state.events.push(newEvent)
     }
   },
   actions: {
@@ -229,8 +234,7 @@ export default new Vuex.Store({
     [ACTIONS.UPDATE_USER_ID]: (context, userId) => {
       context.commit(MUTATIONS.UPDATE_USER_ID, userId);
     },
-    [ACTIONS.ADD_EVENT]: async (context, event) => {
-      // PUSH ON HASURA BEFORE UPDATE
+    [ACTIONS.ADD_EVENT]: async (context, event) => {      
       context.commit(MUTATIONS.ADD_EVENT, event)
     },
     [ACTIONS.ADD_CAR]: async (context, {marque, modele, immatriculation, energie, nombre_de_chevaux, nombre_de_places, id_lieux_de_stockage}) => {
@@ -363,7 +367,17 @@ export default new Vuex.Store({
         MUTATIONS.SET_ID_CAR,
         idCar.data.armadacar_search_course_by_date_and_nbplace[0]
       );
-    },    
+    }, 
+    [ACTIONS.ADD_USERS_COURSES]: async (context, objectsPassager) => {            
+      await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.insertUtilisateursCourses,
+        {
+          objectsPassager : objectsPassager          
+        }
+      );
+    },
     [ACTIONS.UPDATE_REMARQUE]: async (context, {idCourse, remarque}) => {           
       const updateRemarque = await fetchAsync(
         context.state.token,
@@ -431,6 +445,6 @@ export default new Vuex.Store({
         MUTATIONS.SET_COURSE_BY_ID_RESUME,
         historiqueEmprunts.data.armadacar_courses[0]
       );
-    },
+    }
   } 
 });

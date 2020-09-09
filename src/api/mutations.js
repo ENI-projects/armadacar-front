@@ -197,6 +197,12 @@ export const mutations =
         }      
       }
     }
+  }`,
+  insertUtilisateursCourses:  
+  `mutation insert_multiple_utilisateurs_courses($objectsPassager: [armadacar_utilisateurs_courses_insert_input!]!) {
+    insert_armadacar_utilisateurs_courses(objects: $objectsPassager) {
+      affected_rows
+    }
   }`
   ,updateRemarqueCourse: 
   `mutation ($remarque: String!, $id: Int!) {

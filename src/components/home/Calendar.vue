@@ -84,7 +84,8 @@ export default {
   <div>
     <FullCalendar
           class="demo-app-calendar"                                        
-          :options='calendarOptions'          
+          :options='calendarOptions'     
+          
         />
 
     <b-modal

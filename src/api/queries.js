@@ -75,6 +75,7 @@ export const queries = {
         armadacar_courses(where: {utilisateurs_courses: {id_utilisateur: {_eq: $id}, createur: {_eq: false}}}) {
           id
           lieu_arrivee
+          lieu_depart
           date_fin
           date_debut
           aller_retour
@@ -89,6 +90,7 @@ export const queries = {
         armadacar_courses(where: {utilisateurs_courses: {id_utilisateur: {_eq: $id}, createur: {_eq: true}}}) {
           id
           lieu_arrivee
+          lieu_depart
           date_fin
           date_debut
           aller_retour

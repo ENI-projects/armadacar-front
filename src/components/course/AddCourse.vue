@@ -151,20 +151,7 @@ export default
         }                            
     }      
   },  
-  computed: {
-      passagers: () => {
-          return [
-            {id: 1, name: 'Julien'},
-            {id: 2, name: 'Boby'},
-            {id: 4, name: 'Luke'},
-            {id: 5, name: 'Amélie'},
-            {id: 6, name: 'Christian'}      
-        ]
-      },
-      rows()
-      {                    
-          return this.arrayTablePassager
-      },
+  computed: {                  
       disabledDateRetour()
       {
         var state = {
@@ -199,17 +186,17 @@ export default
             var dateRetour = new Date(this.dateRetour.date);
             var heureDepart = new Date(this.heureDepart.heure);
             var heureArrivee = new Date(this.heureRetour.heure);            
-            var newFormatDateDepart = dateDepart.getUTCFullYear() + "-" + ("0" + (dateDepart.getUTCMonth()+1)) +"-"+ dateDepart.getUTCDate();
-            var newFormatDateRetour = dateRetour.getUTCFullYear() + "-" + (dateRetour.getUTCMonth()+1) +"-"+ dateRetour.getUTCDate();
+            var newFormatDateDepart = dateDepart.getUTCFullYear() + "-" + ("0" + (dateDepart.getUTCMonth()+1)).slice(-2) +"-"+ dateDepart.getUTCDate();
+            var newFormatDateRetour = dateRetour.getUTCFullYear() + "-" + ("0" + (dateRetour.getUTCMonth()+1)).slice(-2) +"-"+ dateRetour.getUTCDate();
             var newFormatHeureDepart = heureDepart.getUTCHours()+2 + ":" + heureDepart.getUTCMinutes() +":"+ heureDepart.getUTCSeconds();
             var newFormatHeureRetour = heureArrivee.getUTCHours()+2 + ":" + heureArrivee.getUTCMinutes() +":"+ heureArrivee.getUTCSeconds();
-        
+
             //Récupère un identifiant de véhicule disponible a la date passé.            
             store.dispatch(ACTIONS.SET_ID_CAR, {
                 nbrePassager: this.form.nombre_de_places,
-                dateDebut: newFormatDateDepart                
+                dateDebut: newFormatDateDepart
             })
-            .then(() => {            
+            .then(() => {
                 if (store.state.idCar != null)
                 {
                     store.dispatch(ACTIONS.ADD_COURSE, {
@@ -219,33 +206,32 @@ export default
                     lieuArrivee: this.form.villeArrivee,
                     idVoiture: store.state.idCar.id,
                     allerRetour: this.allerRetour
-                    }).then(() => {
-                            // store.state.events.push({
-                            //     title: this.form.villeDepart + "-" + this.form.villeArrivee,
-                            //     id: store.state.course.id,
-                            //     start: newFormatDateDepart + "T" + newFormatHeureDepart + "+02:00",
-                            //     end: newFormatDateRetour + "T" + newFormatHeureRetour + "+02:00"
-                            // })                           
-                            //console.log(store.state.newCourse)
+                    }).then(() => {                        
+                        let objectsPassager = {
+                            id_utilisateur: store.state.userId,
+                            id_course: store.state.newCourse.id,
+                            createur: true
+                        }
+                        store.dispatch(ACTIONS.ADD_USERS_COURSES, objectsPassager)
+                        .then(() => {
+                            let newEvent = 
+                            {
+                                title: this.form.villeDepart + "-" + this.form.villeArrivee,
+                                id: store.state.newCourse.id,
+                                start: newFormatDateDepart + "T" + newFormatHeureDepart + "+02:00",
+                                end: newFormatDateRetour + "T" + newFormatHeureRetour + "+02:00"
+                            }
+                            store.dispatch(ACTIONS.ADD_EVENT, newEvent)
                             this.$router.push({ name: 'detailCourse', params: { course: store.state.newCourse}});
-                        })                
+                        })
+                    })
                 }
                 else{
-                    this.confirmAddEvent = `Aucune voiture de disponible pour ce déplacement !`                    
+                    this.confirmAddEvent = `Aucune voiture de disponible pour ce déplacement !`
                     this.$bvModal.show("information")
-                }                                
+                }
             });
-        })	    
-    },    
-    addTablePassager() {        
-        if (this.arrayTablePassager.findIndex(passager => passager.name == this.selectPassager) == -1)
-        {            
-            this.arrayTablePassager.push({name: this.selectPassager.split(' - ')[1], id: this.selectPassager.split(' - ')[0]})            
-        }        
-    },
-    handleDeletePassagerClick(arg1) {  
-        var index = this.arrayTablePassager.findIndex(passager => passager == arg1)
-        this.arrayTablePassager.splice(index, 1)
+        })
     },
     okModelButtonClicked(){
         this.$bvModal.hide("information")
