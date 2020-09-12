@@ -8,7 +8,8 @@ import { mutations } from "@/api/mutations.js";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+
+export default new Vuex.Store({  
   state: {
     token: "",
     userId: "",
@@ -29,9 +30,10 @@ export default new Vuex.Store({
     historiqueDeplacements : [],
     historiqueEmprunts : [],
     courseByIdResume: [],    
+    idEnterprise: "",
   },
   mutations: {
-    [MUTATIONS.SET_COURSES]: (state, courses) => {
+    [MUTATIONS.SET_LAST_FOUR_COURSES]: (state, courses) => {
       state.courses = courses;
     },
     [MUTATIONS.SET_EVENTS]: (state, events) => {
@@ -113,57 +115,58 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_ADD_EVENT_TO_LIST_EVENTS]: (state, newEvent) => {
       state.events.push(newEvent)
+    },
+    [MUTATIONS.SET_ID_ENTERPRISE_BY_USER_ID]: (state, idEnterprise) => {
+      state.idEnterprise = idEnterprise
     }
   },
   actions: {
-    [ACTIONS.SET_COURSES]: async (context) => {
-      const lastEventList = await fetchAsync(
+    [ACTIONS.SET_LAST_FOUR_COURSES]: async (context) => {
+      const lastFourCourseList = await fetchAsync(
         context.state.token,
         fetcher,
         queries.selectFourLastCourse
-      );      
-      var objLastEventList = [];
-      lastEventList.data.armadacar_courses.forEach(element => {          
-        objLastEventList.push(
-          {
-            start: element.lieu_depart,
-            arrival: element.lieu_arrivee,            
-          }          
-        )                          
-      });
-      context.commit(
-        MUTATIONS.SET_COURSES,
-        objLastEventList
-      );      
+      );            
+      if (typeof lastFourCourseList.data !== "undefined"){
+        const parsedCourses = lastFourCourseList.data.armadacar_courses.map((course) => {
+          return {
+            start: course.lieu_depart,
+            arrival: course.lieu_arrivee,            
+          }
+        });        
+        context.commit(MUTATIONS.SET_LAST_FOUR_COURSES, parsedCourses);
+      } else {
+        console.log("Une erreur à eu lieu lors de la récupération des 4 dernières courses.")
+        context.commit(MUTATIONS.SET_LAST_FOUR_COURSES, {});
+      }      
     },
     [ACTIONS.SET_EVENTS]: async (context) => {
-      const eventList = await fetchAsync(
+      const courseList = await fetchAsync(
         context.state.token,
         fetcher,
         queries.selectAllCourse
       );      
-      var objEvents = [];
-      eventList.data.armadacar_courses.forEach(element => {          
-        objEvents.push(
-          {
-            id: element.id,
-            title: element.lieu_depart + "-" + element.lieu_arrivee,
-            start: element.date_debut,
-            end: element.date_fin
-          }          
-        )                          
-      });
-      context.commit(
-        MUTATIONS.SET_EVENTS,
-        objEvents        
-      );
+      if (typeof courseList.data !== "undefined"){
+        const events = courseList.data.armadacar_courses.map((course) => {
+          return {
+            id: course.id,
+            title: course.lieu_depart + "-" + course.lieu_arrivee,
+            start: course.date_debut,
+            end: course.date_fin
+          }
+        });        
+        context.commit(MUTATIONS.SET_EVENTS, events);
+      } else {
+        console.log("Une erreur à eu lieu lors de la récupération des courses.")
+        context.commit(MUTATIONS.SET_EVENTS, {});
+      }
     },
-    [ACTIONS.SET_VEHICULES]: async (context) => {      
+    [ACTIONS.SET_VEHICULES]: async (context) => {          
       const vehiculeList = await fetchAsync(
         context.state.token,
         fetcher,
         queries.carsList
-      );      
+      );                 
       context.commit(
         MUTATIONS.SET_VEHICULES,
         vehiculeList.data.armadacar_voitures        
@@ -238,6 +241,8 @@ export default new Vuex.Store({
       context.commit(MUTATIONS.ADD_EVENT, event)
     },
     [ACTIONS.ADD_CAR]: async (context, {marque, modele, immatriculation, energie, nombre_de_chevaux, nombre_de_places, id_lieux_de_stockage}) => {
+      let id_entreprise = context.state.idEnterprise
+      
       const addCar = await fetchAsync(
         context.state.token,
         fetcher,
@@ -249,7 +254,8 @@ export default new Vuex.Store({
           energie, 
           nombre_de_chevaux, 
           nombre_de_places, 
-          id_lieux_de_stockage
+          id_lieux_de_stockage,    
+          id_entreprise      
         }
       );               
       return context.commit(MUTATIONS.ADD_CAR, addCar.data.insert_armadacar_voitures.returning[0]);
@@ -290,6 +296,7 @@ export default new Vuex.Store({
       context.commit(MUTATIONS.DELETE_CAR, false, identifiant);
     },
     [ACTIONS.ADD_STORAGE_PLACE]: async (context, {libelle, adresse, ville, departement, code_postal}) => {
+      let id_entreprise = context.state.idEnterprise
       const addStoragePlace = await fetchAsync(
         context.state.token,
         fetcher,
@@ -300,6 +307,7 @@ export default new Vuex.Store({
           ville, 
           departement, 
           code_postal, 
+          id_entreprise
         }
       );               
       return context.commit(MUTATIONS.ADD_STORAGE_PLACE, addStoragePlace.data.insert_armadacar_lieux_de_stockage.returning[0]);
@@ -337,7 +345,8 @@ export default new Vuex.Store({
       );
       context.commit(MUTATIONS.DELETE_STORAGE_PLACE, false, identifiantStoragePlace);
     },    
-    [ACTIONS.ADD_COURSE]: async (context, {dateDebut, dateFin, lieuDepart, lieuArrivee, idVoiture, allerRetour}) => {
+    [ACTIONS.ADD_COURSE]: async (context, {dateDebut, dateFin, lieuDepart, lieuArrivee, idVoiture, allerRetour}) => {      
+      let id_entreprise = context.state.idEnterprise;                  
       const addCourse = await fetchAsync(
         context.state.token,
         fetcher,
@@ -348,9 +357,10 @@ export default new Vuex.Store({
           lieuDepart,
           lieuArrivee,
           idVoiture,
-          allerRetour    
+          allerRetour,
+          id_entreprise
         }
-      );               
+      );                     
       return context.commit(MUTATIONS.ADD_COURSE, addCourse.data.insert_armadacar_courses.returning[0]);
     },
     [ACTIONS.SET_ID_CAR]: async (context, {dateDebut, nbrePassager}) => {      
@@ -444,6 +454,17 @@ export default new Vuex.Store({
       context.commit(
         MUTATIONS.SET_COURSE_BY_ID_RESUME,
         historiqueEmprunts.data.armadacar_courses[0]
+      );
+    },
+    [ACTIONS.SET_ID_ENTERPRISE_BY_USER_ID]: async (context) => {
+      const result = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectIdEnterpriseByUserId        
+      );            
+      context.commit(
+        MUTATIONS.SET_ID_ENTERPRISE_BY_USER_ID,
+        result.data.armadacar_utilisateurs[0].id_entreprise
       );
     }
   } 

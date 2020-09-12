@@ -1,5 +1,5 @@
 export const ACTIONS = {
-    SET_COURSES: "setCourses",
+    SET_LAST_FOUR_COURSES: "setCourses",
     SET_EVENTS: "setEvents",
     ADD_EVENT: "addEvent",
     SET_VEHICULES: "setVehicules",
@@ -21,5 +21,6 @@ export const ACTIONS = {
     SET_COUNT_IMMATRICULATION: "selectCountImmatriculationExist",
     SET_COURSE_DEPLACEMENT: "selectCourseDeplacementsByUser",
     SET_COURSE_EMPRUNT: "selectCourseEmpruntsByUser",
-    SET_COURSE_BY_ID_RESUME: "selectCourseResume"
+    SET_COURSE_BY_ID_RESUME: "selectCourseResume",
+    SET_ID_ENTERPRISE_BY_USER_ID: "selectIdEnterpriseByUserId"
 }

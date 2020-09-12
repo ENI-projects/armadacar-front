@@ -115,8 +115,6 @@
 import store from '@/store';
 import { ACTIONS } from "@/store/actions-definitions";
 import { BModal, VBModal } from 'bootstrap-vue';
-store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);
-store.dispatch(ACTIONS.SET_ENERGIES);
 
 export default {  
   directives: {
@@ -211,6 +209,10 @@ export default {
     okModelButtonClicked() {
         this.$bvModal.hide("alertImmatriculationExist")
       },
+  },
+  mounted() {
+    store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);
+    store.dispatch(ACTIONS.SET_ENERGIES);
   }
 }
 </script>

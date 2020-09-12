@@ -1,12 +1,11 @@
 const API_URL = process.env.VUE_APP_HASURA_URL;
 
-export const fetcher = (token, query, variables) => {    
+export const fetcher = (token, query, variables) => {   
   return fetch(API_URL, {
-    method: "POST",
+    method: "POST",    
     headers: {
       "content-Type": "application/json",
-    //   Authorization: `Bearer ${token}`
-      "x-hasura-admin-secret" : "myadminsecretkey"
+       Authorization: `Bearer ${token}`      
     },
     body: JSON.stringify({
       query,

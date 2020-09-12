@@ -67,8 +67,6 @@ import { BModal, VBModal } from 'bootstrap-vue';
 import store from '@/store';
 import { ACTIONS } from "@/store/actions-definitions";
 
-store.dispatch(ACTIONS.SET_USERS);
-
 export default 
 {        
     directives: {
@@ -176,6 +174,9 @@ export default
       {                              
         this.$router.push({name: 'detailUser', params: {user: items[0]}});
       },    
+    },
+    mounted() {
+      store.dispatch(ACTIONS.SET_USERS);
     }
 }
 </script>

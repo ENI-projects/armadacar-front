@@ -157,6 +157,9 @@ export default
       {                              
         this.$router.push({name: 'detailStoragePlace', params: {storagePlace: items[0]}});
       }      
+    },
+    mounted(){
+      store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);
     }
 }
 </script>

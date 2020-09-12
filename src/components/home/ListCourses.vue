@@ -16,7 +16,7 @@ import Course from "@/components/home/Course"
 
 export default {
   name: 'ListCourses',
-  components: {Course},
+  components: { Course },
   props: {
     courses: Array
   }

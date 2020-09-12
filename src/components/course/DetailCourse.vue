@@ -19,7 +19,7 @@
                 </div>                
             </div>
             <div class="col-lg-5 col-md-12">                
-                <h4>Véhicule prêter : </h4>
+                <h4>Véhicule prêté : </h4>
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                         <label>Modèle : {{modeleVehicule}}</label><br/>

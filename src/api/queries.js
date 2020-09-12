@@ -121,5 +121,14 @@ export const queries = {
             }            
           }  
       }
+      `,
+      selectIdEnterpriseByUserId: 
       `
+        query
+        {
+          armadacar_utilisateurs{
+            id_entreprise
+          }
+        }
+      `,
 };

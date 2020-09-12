@@ -8,7 +8,8 @@ export const mutations =
     $energie: String!, 
     $immatriculation: String!, 
     $id_lieux_de_stockage: Int!,
-    $nombre_de_chevaux: Int!)
+    $nombre_de_chevaux: Int!,
+    $id_entreprise: Int!)
     {      
       insert_armadacar_voitures (          
         objects: 
@@ -20,7 +21,7 @@ export const mutations =
           immatriculation: $immatriculation
           id_lieux_de_stockage: $id_lieux_de_stockage
           nombre_de_chevaux: $nombre_de_chevaux
-          id_entreprise: 1
+          id_entreprise: $id_entreprise
         }
       )
       {
@@ -96,17 +97,18 @@ export const mutations =
     $adresse: String!, 
     $ville: String!, 
     $departement: String!, 
-    $code_postal: String!)
+    $code_postal: String!,
+    $id_entreprise: Int!)
     {      
       insert_armadacar_lieux_de_stockage (          
         objects: 
         {
           libelle: $libelle
-          id_entreprise: 1
+          id_entreprise: $id_entreprise
           adresse: $adresse
           ville: $ville
           departement: $departement
-          code_postal: $code_postal
+          code_postal: $code_postal          
         }
       )
       {
@@ -170,7 +172,8 @@ export const mutations =
     $lieuDepart: String!, 
     $lieuArrivee: String!, 
     $idVoiture: Int!,
-    $allerRetour: Boolean!
+    $allerRetour: Boolean!,
+    $id_entreprise: Int!
   ) {
     insert_armadacar_courses(objects: 
       {
@@ -179,7 +182,8 @@ export const mutations =
         lieu_depart: $lieuDepart, 
         lieu_arrivee: $lieuArrivee, 
         id_voiture: $idVoiture,
-        aller_retour: $allerRetour
+        aller_retour: $allerRetour,
+        id_entreprise: $id_entreprise
       }) {
       returning {      
         id      

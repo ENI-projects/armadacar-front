@@ -72,9 +72,6 @@ import { BModal, VBModal } from 'bootstrap-vue';
 import store from '@/store';
 import { ACTIONS } from "@/store/actions-definitions";
 
-store.dispatch(ACTIONS.SET_VEHICULES);
-store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);
-
 export default 
 {        
     directives: {
@@ -165,6 +162,10 @@ export default
       {                              
         this.$router.push({name: 'detailVehicule', params: {vehicule: items[0]}});
       }      
+    },
+    mounted(){
+      store.dispatch(ACTIONS.SET_VEHICULES);
+      store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);
     }
 }
 </script>

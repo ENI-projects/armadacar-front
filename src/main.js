@@ -43,12 +43,7 @@ Vue.use(VueKeyCloak, {
   onReady: keycloak => {
     store.dispatch(ACTIONS.UPDATE_TOKEN, keycloak.token);
     store.dispatch(ACTIONS.UPDATE_USER_ID, keycloak.idTokenParsed.sub);
-    //store.dispatch(ACTIONS.RETRIEVE_PROFILE).then(() => {
-    //  if (!store.state.profile || store.state.profile.user_name === "") {
-    //    router.replace("/first-step");
-    //    return;
-    //  }
-    //});
+    store.dispatch(ACTIONS.SET_ID_ENTERPRISE_BY_USER_ID)
     new Vue({
       router: router,
       store: store,
