@@ -92,6 +92,11 @@ export default new VueRouter({
                 requireBeAdmin: true
             }
         },
+        { name:'profileUser',
+            path: '/profil', 
+            component: DetailUserComponent,
+            props: true            
+        },
         { name:'addStoragePlace',
             path: '/admin/gestionStoragePlace/addStoragePlace', 
             component: AddUpdateStoragePlaceComponent,
@@ -134,6 +139,11 @@ export default new VueRouter({
             path: '/historique',
             props: true,
             component: HistoriqueComponent
+        }
+        ,
+        {
+            name: 'changerMotDePasse',
+            path: process.env.VUE_APP_KEYCLOAK_URL + "/realms/" + process.env.VUE_APP_KEYCLOAK_REALM + process.env.VUE_APP_KEYCLOAK_OPERATION
         }
     ]
 })

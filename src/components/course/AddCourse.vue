@@ -191,7 +191,7 @@ export default
             var newFormatHeureDepart = heureDepart.getUTCHours()+2 + ":" + heureDepart.getUTCMinutes() +":"+ heureDepart.getUTCSeconds();
             var newFormatHeureRetour = heureArrivee.getUTCHours()+2 + ":" + heureArrivee.getUTCMinutes() +":"+ heureArrivee.getUTCSeconds();
 
-            //Récupère un identifiant de véhicule disponible a la date passé.            
+            //Récupère un identifiant de véhicule disponible a la date passé.
             store.dispatch(ACTIONS.SET_ID_CAR, {
                 nbrePassager: this.form.nombre_de_places,
                 dateDebut: newFormatDateDepart

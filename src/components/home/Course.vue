@@ -16,9 +16,6 @@ export default {
 </script>
 
 <style scoped>
-.thumbnail:hover{  
-  opacity: 0.8;
-}
 
 .course {
   border-radius: 5px;

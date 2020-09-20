@@ -1,10 +1,10 @@
 <template>
-    <div style="padding-left:10px">
+    <div style="divStoragePlace">
         <br/>
         <div>
             <h1><b>Détail du lieu de stockage</b></h1>   
         </div>
-        <b-container fluid>
+        <b-container fluid class="textCenter">
             <b-form-group>
                 <b-row class="my-1">
                 <b-col sm="12">
@@ -71,5 +71,14 @@ export default{
   #margin-button
   {
     margin-bottom:50px;
+  }
+
+  #divStoragePlace
+  {
+      padding-left:10px
+  }
+
+  #textCenter{
+      text-align: center;
   }
 </style>

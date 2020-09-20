@@ -12,7 +12,7 @@
                         <NavbarRoleUserComponent/>
                     </div>                   
                     <b-nav-item-dropdown :text="`${userName}`" right>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+                        <b-dropdown-item><router-link :to="'/profil'" class="nav-link" style="color:black">Profil</router-link></b-dropdown-item>
                         <b-dropdown-item @click="logOut()">Se déconnecter</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>

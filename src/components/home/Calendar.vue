@@ -13,21 +13,21 @@ import { ACTIONS } from "@/store/actions-definitions";
 export default {  
   components: {
     FullCalendar // make the <FullCalendar> tag available
-  },      
-  data(){            
-    return {                 
+  },
+  data(){
+    return {
       confirmAddEvent: "",
-      calendarTheme: 'minty'     
+      calendarTheme: 'minty'
     }
-  },   
+  },
   methods: {
     handleEventClick(clickInfo) {
       store.dispatch(ACTIONS.SET_COURSE_BY_ID_RESUME, {
         idCourse: clickInfo.event.id
       }).then(() => {
-        this.$router.push({ name: 'detailCourse', params: { course: store.state.courseByIdResume}});          
+        this.$router.push({ name: 'detailCourse', params: { course: store.state.courseByIdResume}});
       })
-    },    
+    },
     prepareOptions() {
       return {
         headerToolbar: {
@@ -36,17 +36,17 @@ export default {
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
         plugins: [
-          interactionPlugin, 
-          dayGridPlugin, 
-          timeGridPlugin,         
+          interactionPlugin,
+          dayGridPlugin,
+          timeGridPlugin,      
           bootstrapPlugin
         ],
-        initialView: 'dayGridMonth',        
+        initialView: 'dayGridMonth',
         editable: true,
-        selectable: true,        
+        selectable: true,
         dayMaxEvents: true,
-        weekends: true,     
-        themeSystem: 'boostrap',        
+        weekends: true,
+        themeSystem: 'boostrap',
         locale: languagePlugin,
         eventClick: this.handleEventClick,
         events: store.state.events
@@ -65,11 +65,9 @@ export default {
     <FullCalendar
       class="demo-app-calendar"
       :options='prepareOptions()'
-    />    
+    />
   </div>
 </template>
-
-
 
 <style>
   @import 'https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/minty/bootstrap.min.css';

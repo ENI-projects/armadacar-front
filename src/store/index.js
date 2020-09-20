@@ -145,7 +145,7 @@ export default new Vuex.Store({
         context.state.token,
         fetcher,
         queries.selectAllCourse
-      );      
+      );
       if (typeof courseList.data !== "undefined"){
         const events = courseList.data.armadacar_courses.map((course) => {
           return {
@@ -154,22 +154,22 @@ export default new Vuex.Store({
             start: course.date_debut,
             end: course.date_fin
           }
-        });        
+        });
         context.commit(MUTATIONS.SET_EVENTS, events);
       } else {
         console.log("Une erreur à eu lieu lors de la récupération des courses.")
         context.commit(MUTATIONS.SET_EVENTS, {});
       }
     },
-    [ACTIONS.SET_VEHICULES]: async (context) => {          
+    [ACTIONS.SET_VEHICULES]: async (context) => {
       const vehiculeList = await fetchAsync(
         context.state.token,
         fetcher,
         queries.carsList
-      );                 
+      );
       context.commit(
         MUTATIONS.SET_VEHICULES,
-        vehiculeList.data.armadacar_voitures        
+        vehiculeList.data.armadacar_voitures
       );
     },
     [ACTIONS.SET_LIEUX_STOCKAGES]: async (context) => {
@@ -177,20 +177,20 @@ export default new Vuex.Store({
         context.state.token,
         fetcher,
         queries.storagePlaceList
-      );      
+      );
       context.commit(
         MUTATIONS.SET_LIEUX_STOCKAGES,
-        storagePlaceList.data.armadacar_lieux_de_stockage        
+        storagePlaceList.data.armadacar_lieux_de_stockage
       );
     },
     [ACTIONS.SET_ENERGIES]: async (context) => {
       context.commit(
-        MUTATIONS.SET_ENERGIES,        
+        MUTATIONS.SET_ENERGIES,
         [
           { text: 'Choisir', value: null },
           'Diesel', 
-          'Essence', 
-          'Gaz', 
+          'Essence',
+          'Gaz',
           'Électrique'
         ]
       );
@@ -369,8 +369,8 @@ export default new Vuex.Store({
         fetcher,
         queries.selectIdCarAvailable,
         {
-          nbrePassager,
-          dateDebut          
+          dateDebut,
+          nbrePassager          
         }
       );      
       context.commit(
