@@ -26,7 +26,7 @@
                         <label>Immatriculation : {{immatriculation}}</label>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                        <label>Nombre de place : {{nbPlace}}</label>
+                        <label>Nombre de places : {{nbPlace}}</label>
                     </div>
                 </div>                
             </div>                        
@@ -71,7 +71,7 @@
                 <br/>                
                 <br/>
                 <h4>Localisation de la clef :</h4>
-                <textarea id="remarque" name="remarque" rows="5" cols="68" readonly>Disponible a l'accueil</textarea>
+                <textarea id="remarque" name="remarque" rows="5" cols="68" readonly>Disponible à l'accueil</textarea>
             </div>
         </div> 
         <br/><br/>

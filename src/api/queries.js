@@ -131,4 +131,16 @@ export const queries = {
           }
         }
       `,
+      selectTwoLastActionByAdmin: 
+      `query MyQuery {
+        armadacar_lieux_de_stockage(order_by: {created_at: desc}, limit: 2) {
+          libelle
+          ville
+        }
+        armadacar_voitures(order_by: {created_at: desc}, limit: 2) {
+          marque
+          modele
+          created_at
+        }
+      }`
 };

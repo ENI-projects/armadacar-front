@@ -2,7 +2,7 @@
     <div class="divDetailUser">
         <br/>
         <div>
-            <h1 v-if="this.$route.fullPath.includes('profil')==true"><b>Profile</b></h1>
+            <h1 v-if="this.$route.fullPath.includes('profil')==true"><b>Profil</b></h1>
             <h1 v-else><b>Détail de l'utilisateur</b></h1>
         </div>
         <b-container fluid class="textCenter"> 

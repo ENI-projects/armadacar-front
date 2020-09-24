@@ -2,14 +2,7 @@
     <div class="divAddCourse">
         <br/>
         <h2 style="text-align:center">Création d'un déplacement</h2>
-        <br/>
-        <div class="container">
-            <div class="row">
-                <div class="d-flex justify-content-center col-lg-12">
-                    <toggle-button v-model="allerRetour" :value="true" :sync="true" :width="170" :height="40" :font-size="20" :labels="{checked: 'Aller/Retour', unchecked: 'Aller'}"/>                    
-                </div>                
-            </div>    
-        </div>
+        <br/>        
         <br/>
         <b-container fluid class="containerCourse" v-if="show">
             <b-form-group>
@@ -91,7 +84,6 @@
 </template>
 
 <script>
-import { ToggleButton } from 'vue-js-toggle-button'
 import  Datepicker  from 'vuejs-datepicker';
 import Timeselector from 'vue-timeselector';
 import {fr} from "vuejs-datepicker/src/locale";
@@ -104,8 +96,7 @@ export default
   directives: {    
     'b-modal': VBModal
   },
-  components: {
-    'toggle-button' : ToggleButton,
+  components: {    
     'date-picker' : Datepicker,
     'time-selector' : Timeselector,
     'b-modal': BModal
@@ -134,9 +125,7 @@ export default
             }
         ],
         confirmAddEvent: "",
-        arrayTablePassager: [],
-        //true pour aller, false pour aller-retour
-        allerRetour: true,
+        arrayTablePassager: [],        
         dateDepart: {
             date: ""
         },
@@ -154,42 +143,63 @@ export default
   computed: {                  
       disabledDateRetour()
       {
-        var state = {
-            disabledDates: {
-                // to: new Date(2016, 0, 5), // Disable all dates up to specific date
-                to: new Date(this.dateDepart.date - 8640000), // Disable all dates after specific date
+          //Si la date de Retour est renseigné, alors on vérouille les dates se situant après.
+          if (this.dateRetour.date != "")
+          {
+            var state = {
+                disabledDates: {
+                    to: new Date(this.dateDepart.date - 8640000) 
+                }
             }
+            return state.disabledDates
           }
-        return state.disabledDates
+          //Sinon on vérouille les dates se situant avant la date d'aujourd'hui.
+          else
+          {
+            state = {
+                disabledDates: {                    
+                    to: new Date(Date.now() - 8640000)
+                }
+            }
+            return state.disabledDates
+          }
+        
       },
       disabledDateAller()
       {
+        //Si la date de retour est renseignée, alors on vérouille les dates après cette date de retour et on vérouille les dates avant la date d'aujourd'hui
         if (this.dateRetour.date != "")
         {            
             var state = {
-                disabledDates: {
-                    // to: new Date(2016, 0, 5), // Disable all dates up to specific date
-                    from: new Date(this.dateRetour.date - 8640000), // Disable all dates after specific date
+                disabledDates: {                    
+                    from: new Date(this.dateRetour.date - 8640000),
+                    to: new Date(Date.now() - 8640000)
                 }
-            }            
+            }
             return state.disabledDates
         }
+        //Sinon on vérouille uniquement les dates avant aujourd'hui.
         else{
-            return state
-        }        
+            state = {
+                disabledDates: {
+                    to: new Date(Date.now() - 8640000)
+                }
+            }
+            return state.disabledDates
+        }
       }
   },
-   methods: {    
-    onSubmitCourse(){                        
+   methods: {
+    onSubmitCourse(){
         this.$nextTick(() => {
             var dateDepart = new Date(this.dateDepart.date);
             var dateRetour = new Date(this.dateRetour.date);
             var heureDepart = new Date(this.heureDepart.heure);
-            var heureArrivee = new Date(this.heureRetour.heure);            
+            var heureArrivee = new Date(this.heureRetour.heure);
             var newFormatDateDepart = dateDepart.getUTCFullYear() + "-" + ("0" + (dateDepart.getUTCMonth()+1)).slice(-2) +"-"+ dateDepart.getUTCDate();
             var newFormatDateRetour = dateRetour.getUTCFullYear() + "-" + ("0" + (dateRetour.getUTCMonth()+1)).slice(-2) +"-"+ dateRetour.getUTCDate();
-            var newFormatHeureDepart = heureDepart.getUTCHours()+2 + ":" + heureDepart.getUTCMinutes() +":"+ heureDepart.getUTCSeconds();
-            var newFormatHeureRetour = heureArrivee.getUTCHours()+2 + ":" + heureArrivee.getUTCMinutes() +":"+ heureArrivee.getUTCSeconds();
+            var newFormatHeureDepart = heureDepart.getUTCHours() + ":" + heureDepart.getUTCMinutes() +":"+ heureDepart.getUTCSeconds();
+            var newFormatHeureRetour = heureArrivee.getUTCHours() + ":" + heureArrivee.getUTCMinutes() +":"+ heureArrivee.getUTCSeconds();
 
             //Récupère un identifiant de véhicule disponible a la date passé.
             store.dispatch(ACTIONS.SET_ID_CAR, {
@@ -200,12 +210,12 @@ export default
                 if (store.state.idCar != null)
                 {                    
                     store.dispatch(ACTIONS.ADD_COURSE, {
-                    dateDebut: newFormatDateDepart + "T" + newFormatHeureDepart + "+02:00",
-                    dateFin: newFormatDateRetour + "T" + newFormatHeureRetour + "+02:00",
+                    dateDebut: newFormatDateDepart + "T" + newFormatHeureDepart,
+                    dateFin: newFormatDateRetour + "T" + newFormatHeureRetour,
                     lieuDepart: this.form.villeDepart,
                     lieuArrivee: this.form.villeArrivee,
                     idVoiture: store.state.idCar.id,
-                    allerRetour: this.allerRetour
+                    allerRetour: true
                     }).then(() => {                        
                         let objectsPassager = {
                             id_utilisateur: store.state.userId,
@@ -218,8 +228,8 @@ export default
                             {
                                 title: this.form.villeDepart + "-" + this.form.villeArrivee,
                                 id: store.state.newCourse.id,
-                                start: newFormatDateDepart + "T" + newFormatHeureDepart + "+02:00",
-                                end: newFormatDateRetour + "T" + newFormatHeureRetour + "+02:00"
+                                start: newFormatDateDepart + "T" + newFormatHeureDepart,
+                                end: newFormatDateRetour + "T" + newFormatHeureRetour
                             }
                             store.dispatch(ACTIONS.ADD_EVENT, newEvent)
                             this.$router.push({ name: 'detailCourse', params: { course: store.state.newCourse}});

@@ -22,5 +22,6 @@ export const MUTATIONS = {
     SET_COURSE_DEPLACEMENT: "selectCourseDeplacementsByUser",
     SET_COURSE_EMPRUNT: "selectCourseEmpruntsByUser",
     SET_COURSE_BY_ID_RESUME: "selectCourseResume",
-    SET_ID_ENTERPRISE_BY_USER_ID: "selectIdEnterpriseByUserId"
+    SET_ID_ENTERPRISE_BY_USER_ID: "selectIdEnterpriseByUserId",
+    SET_LAST_TWO_ACTION_BY_ADMIN: "selectTwoLastActionByAdmin"
 }

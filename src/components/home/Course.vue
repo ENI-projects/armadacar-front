@@ -1,7 +1,7 @@
 <template>
   <div class=" thumbnail course">
     <h5 style="color: white;">Départ : {{ start }}</h5>
-    <h5 style="color: white;">Arriver : {{ arrival }}</h5>
+    <h5 style="color: white;">Arrivée : {{ arrival }}</h5>
   </div>
 </template>
 

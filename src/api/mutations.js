@@ -208,7 +208,7 @@ export const mutations =
       affected_rows
     }
   }`
-  ,updateRemarqueCourse: 
+  ,updateRemarqueCourse:
   `mutation ($remarque: String!, $id: Int!) {
     update_armadacar_courses(where: {id: {_eq: $id}}, _set: {remarque: $remarque}) {
       affected_rows

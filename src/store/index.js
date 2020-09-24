@@ -31,6 +31,7 @@ export default new Vuex.Store({
     historiqueEmprunts : [],
     courseByIdResume: [],    
     idEnterprise: "",
+    lastTwoActionByAdmin: []
   },
   mutations: {
     [MUTATIONS.SET_LAST_FOUR_COURSES]: (state, courses) => {
@@ -118,6 +119,9 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_ID_ENTERPRISE_BY_USER_ID]: (state, idEnterprise) => {
       state.idEnterprise = idEnterprise
+    },
+    [MUTATIONS.SET_LAST_TWO_ACTION_BY_ADMIN]: (state, lastTwoActionByAdmin) => {
+      state.lastTwoActionByAdmin = lastTwoActionByAdmin
     }
   },
   actions: {
@@ -466,6 +470,17 @@ export default new Vuex.Store({
         MUTATIONS.SET_ID_ENTERPRISE_BY_USER_ID,
         result.data.armadacar_utilisateurs[0].id_entreprise
       );
+    },
+    [ACTIONS.SET_LAST_TWO_ACTION_BY_ADMIN]: async (context) => {
+      const result = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectTwoLastActionByAdmin
+      );
+      context.commit(
+        MUTATIONS.SET_LAST_TWO_ACTION_BY_ADMIN,
+        result.data
+      )
     }
   } 
 });

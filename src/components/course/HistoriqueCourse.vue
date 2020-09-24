@@ -52,13 +52,7 @@ import { ACTIONS } from "@/store/actions-definitions";
 
 
 export default {    
-    data() {        
-        store.dispatch(ACTIONS.SET_COURSE_DEPLACEMENT, {idUser : store.state.userId});
-        store.dispatch(ACTIONS.SET_COURSE_EMPRUNT, {idUser : store.state.userId});
-        return {
-        }
-    }
-    ,computed: {
+    computed: {
         historiqueDeplacements()
         {            
             var obj = []
@@ -103,6 +97,11 @@ export default {
             });
             return obj
         }
+    },
+    mounted()
+    {
+        store.dispatch(ACTIONS.SET_COURSE_DEPLACEMENT, {idUser : store.state.userId});
+        store.dispatch(ACTIONS.SET_COURSE_EMPRUNT, {idUser : store.state.userId});
     }
 }
 </script>
