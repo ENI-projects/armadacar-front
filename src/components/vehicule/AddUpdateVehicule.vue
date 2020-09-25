@@ -208,7 +208,7 @@ export default {
     },              
     okModelButtonClicked() {
         this.$bvModal.hide("alertImmatriculationExist")
-      },
+    },
   },
   mounted() {
     store.dispatch(ACTIONS.SET_LIEUX_STOCKAGES);

@@ -142,5 +142,13 @@ export const queries = {
           modele
           created_at
         }
-      }`
+      }`,
+      selectUtilisateurCourse:
+      `query MyQuery($idUtilisateur: String!, $idCourse: Int!) {
+        armadacar_utilisateurs_courses(where: {_and: {id_utilisateur: {_eq: $idUtilisateur}, id_course: {_eq: $idCourse}, createur: {_eq: true}}}) {
+          id_course
+          id_utilisateur
+        }
+      }
+      `
 };

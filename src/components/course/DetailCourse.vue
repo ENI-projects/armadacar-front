@@ -77,9 +77,17 @@
         <br/><br/>
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
-                <router-link :to="{name: 'accueil'}"><button type="button" class="btn btn-success">Retour a l'accueil</button></router-link>
+                <router-link :to="{name: 'accueil'}"><button type="button" class="btn btn-success">Retour a l'accueil</button></router-link>                
+                <button v-if="isCreator == true" @click="DeleteCourse()" type="button" class="btn btn-danger postionBtndelete">Supprimer le déplacement</button>
             </div>            
-        </div>  
+        </div>
+        <b-modal
+            id="alertErrorDelete"
+            title="Attention"
+            @ok="okModelButtonClicked"
+            >
+            <p>Une erreur est survenue lors de la suppression de la course.</p>
+        </b-modal>  
     </div>    
 </template>
 <script>
@@ -87,10 +95,15 @@ import { BAlert } from 'bootstrap-vue';
 
 import store from '@/store';
 import { ACTIONS } from "@/store/actions-definitions";
+import { BModal, VBModal } from 'bootstrap-vue';
 
-export default{                
+export default{       
+    directives: {
+        'b-modal': VBModal
+    },           
     components: {
-        'b-alert': BAlert
+        'b-alert': BAlert,
+        'b-modal': BModal
     },
     data()
     {        
@@ -103,7 +116,7 @@ export default{
 
         var heureDepart = ("0" + dateDepart.getHours()).slice(-2) + "h" + ("0" + dateDepart.getMinutes()).slice(-2)
         var heureRetour = ("0" + dateRetour.getHours()).slice(-2) + "h" + ("0" + dateRetour.getMinutes()).slice(-2)
-        var placeRestante = this.$route.params.course.voiture.nombre_de_places - 1//- this.$route.params.course.utilisateurs_courses_aggregate.aggregate.count        
+        var placeRestante = this.$route.params.course.voiture.nombre_de_places - 1        
         return {  
             dismissSecs: 3,
             dismissCountDown: 0,   
@@ -119,7 +132,9 @@ export default{
             dateRetourChamps: newFormatDateRetour,
             heureDepartChamps: heureDepart,
             heureRetourChamps: heureRetour,
-            placeRestante: placeRestante       
+            placeRestante: placeRestante,
+            
+            isCreator: store.state.userIsCreator
         }
     },
     methods: {
@@ -129,20 +144,52 @@ export default{
         AjouterRemarque()
         {            
             store.dispatch(ACTIONS.UPDATE_REMARQUE, {
-                idCourse: this.$route.params.course.id,                
+                idCourse: this.$route.params.course.id,
                 remarque: this.remarque
             })
             .then(() => {                
                 if (store.state.remarque == 1)
                 {                    
                     this.dismissCountDown = this.dismissSecs
-                }                
+                }
             })                        
-        }
+        },
+        DeleteCourse()
+        {
+            store.dispatch(
+                ACTIONS.DELETE_USER_IN_COURSE, 
+                this.$route.params.course.id
+            ).then(() => {
+                if (store.state.userIsDelete == 1)
+                {
+                    store.dispatch(
+                        ACTIONS.DELETE_COURSE,
+                        this.$route.params.course.id
+                    ).then(() => {
+                        this.$router.push({ name: 'accueil'});
+                    })                    
+                }
+                else
+                {
+                    this.$bvModal.show("alertErrorDelete")
+                }
+            })
+        },
+        okModelButtonClicked() {
+            this.$bvModal.hide("alertErrorDelete")
+        },
+    }
+    ,mounted()
+    {
+        store.state.userIsCreator
     }    
 }
 </script>
 <style>
+
+.postionBtndelete{
+    margin-left: 20px;
+}
 .titleResumeDeplacement{
     text-align:center
 }

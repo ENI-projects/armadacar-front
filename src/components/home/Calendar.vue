@@ -22,10 +22,12 @@ export default {
   },
   methods: {
     handleEventClick(clickInfo) {
+      store.dispatch(ACTIONS.SET_UTILISATEUR_COURSE, {idCourse: clickInfo.event.id});
       store.dispatch(ACTIONS.SET_COURSE_BY_ID_RESUME, {
         idCourse: clickInfo.event.id
       }).then(() => {
-        this.$router.push({ name: 'detailCourse', params: { course: store.state.courseByIdResume}});
+        let isCreator = store.state.userIsCreator
+        this.$router.push({ name: 'detailCourse', params: { course: store.state.courseByIdResume, isCreator : isCreator}});
       })
     },
     prepareOptions() {

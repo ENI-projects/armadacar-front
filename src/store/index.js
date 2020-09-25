@@ -31,7 +31,10 @@ export default new Vuex.Store({
     historiqueEmprunts : [],
     courseByIdResume: [],    
     idEnterprise: "",
-    lastTwoActionByAdmin: []
+    lastTwoActionByAdmin: [],
+    userIsCreator: "",
+    userIsDelete: "",
+    courseIsDelete: ""
   },
   mutations: {
     [MUTATIONS.SET_LAST_FOUR_COURSES]: (state, courses) => {
@@ -122,6 +125,15 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_LAST_TWO_ACTION_BY_ADMIN]: (state, lastTwoActionByAdmin) => {
       state.lastTwoActionByAdmin = lastTwoActionByAdmin
+    },
+    [MUTATIONS.SET_UTILISATEUR_COURSE]: (state, userIsCreator) => {      
+      state.userIsCreator = userIsCreator        
+    },
+    [MUTATIONS.DELETE_COURSE]: (state, courseIsDelete) => {
+      state.courseIsDelete = courseIsDelete
+    },
+    [MUTATIONS.DELETE_USER_IN_COURSE]: (state, userIsDelete) => {
+      state.userIsDelete = userIsDelete
     }
   },
   actions: {
@@ -480,6 +492,53 @@ export default new Vuex.Store({
       context.commit(
         MUTATIONS.SET_LAST_TWO_ACTION_BY_ADMIN,
         result.data
+      )
+    },
+    [ACTIONS.SET_UTILISATEUR_COURSE]: async (context, {idCourse}) => {
+      let idUtilisateur = context.state.userId      
+      const result = await fetchAsync(
+        context.state.token,
+        fetcher,
+        queries.selectUtilisateurCourse,
+        {
+          idUtilisateur,
+          idCourse
+        }
+      )            
+      let isCreator = result.data.armadacar_utilisateurs_courses.length != 0 ? true : false            
+      context.commit(
+        MUTATIONS.SET_UTILISATEUR_COURSE,
+        isCreator
+      )
+    },
+    [ACTIONS.DELETE_COURSE]: async (context, idCourse) => {
+      console.log(idCourse)
+      const result = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.deleteCourse,
+        {
+          idCourse
+        }
+      )
+      context.commit(
+        MUTATIONS.DELETE_COURSE,
+        result.data.delete_armadacar_courses.affected_rows
+      )
+    },
+    [ACTIONS.DELETE_USER_IN_COURSE]: async (context, idCourse) => {
+      console.log(idCourse)
+      const result = await fetchAsync(
+        context.state.token,
+        fetcher,
+        mutations.deleteUserInCourse,
+        {
+          idCourse
+        }
+      )
+      context.commit(
+        MUTATIONS.DELETE_USER_IN_COURSE,
+        result.data.delete_armadacar_utilisateurs_courses.affected_rows
       )
     }
   } 
