@@ -215,13 +215,12 @@ export const mutations =
     }
   }`
   ,deleteUserInCourse: 
-  `mutation ($idCourse: Int!)
-  {
+  `mutation ($idCourse: Int!){
     delete_armadacar_utilisateurs_courses(where: {id_course: {_eq: $idCourse}}){    
       affected_rows
     }
-  }`,
-  deleteCourse:
+  }`
+  ,deleteCourse:
   `mutation ($idCourse: Int!){
     delete_armadacar_courses(where: {id: {_eq: $idCourse}}){
       affected_rows

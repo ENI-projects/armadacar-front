@@ -511,8 +511,7 @@ export default new Vuex.Store({
         isCreator
       )
     },
-    [ACTIONS.DELETE_COURSE]: async (context, idCourse) => {
-      console.log(idCourse)
+    [ACTIONS.DELETE_COURSE]: async (context, idCourse) => {      
       const result = await fetchAsync(
         context.state.token,
         fetcher,
@@ -526,8 +525,7 @@ export default new Vuex.Store({
         result.data.delete_armadacar_courses.affected_rows
       )
     },
-    [ACTIONS.DELETE_USER_IN_COURSE]: async (context, idCourse) => {
-      console.log(idCourse)
+    [ACTIONS.DELETE_USER_IN_COURSE]: async (context, idCourse) => {      
       const result = await fetchAsync(
         context.state.token,
         fetcher,
@@ -541,5 +539,5 @@ export default new Vuex.Store({
         result.data.delete_armadacar_utilisateurs_courses.affected_rows
       )
     }
-  } 
+  }
 });

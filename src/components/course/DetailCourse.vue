@@ -134,7 +134,7 @@ export default{
             heureRetourChamps: heureRetour,
             placeRestante: placeRestante,
             
-            isCreator: store.state.userIsCreator
+            isCreator: this.$route.params.isCreator
         }
     },
     methods: {
@@ -165,7 +165,7 @@ export default{
                     store.dispatch(
                         ACTIONS.DELETE_COURSE,
                         this.$route.params.course.id
-                    ).then(() => {
+                    ).then(() => {                                                
                         this.$router.push({ name: 'accueil'});
                     })                    
                 }
@@ -178,10 +178,6 @@ export default{
         okModelButtonClicked() {
             this.$bvModal.hide("alertErrorDelete")
         },
-    }
-    ,mounted()
-    {
-        store.state.userIsCreator
     }    
 }
 </script>
