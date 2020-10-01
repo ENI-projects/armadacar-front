@@ -98,39 +98,39 @@ export default{
         }
     },
     mounted()
-    {        
+    {
         this.$keycloak.loadUserProfile()
-        .success(val => 
-        {            
+        .success(val =>
+        {
             //Permet de remplacer l'item en position 1 (o dans le tableau)
             if (this.$route.params.user != null)
             {
                 this.profileUser =
-                {                    
-                    firstname : this.$route.params.user.firstname,
-                    name : this.$route.params.user.name,
+                {
+                    firstname : this.$route.params.user.first_name,
+                    name : this.$route.params.user.last_name,
                     email :  this.$route.params.user.email,
-                    city : this.$route.params.user.city,
-                    codePostal : this.$route.params.user.cp ,
+                    city : this.$route.params.user.ville,
+                    codePostal : this.$route.params.user.code_postal,
                     address : this.$route.params.user.address,
                     phone : this.$route.params.user.phone
                 }
             }
-            else{                
+            else{
                 this.profileUser =
-                {                
+                {
                     firstname : val.firstName,
                     name : val.lastName,
                     email : val.email,
-                    city : val["attributes"].city != null ? val["attributes"].city[0] : "Aucune ville de renseignée",
+                    city : val["attributes"].ville != null ? val["attributes"].ville[0] : "Aucune ville de renseignée",
                     codePostal : val["attributes"].code_postal != null ? val["attributes"].code_postal[0] : "Aucun code postal de renseigné",
                     address : val["attributes"].address != null ? val["attributes"].address[0] : "Aucune adresse de renseignée",
                     phone : val["attributes"].phone != null ? val["attributes"].phone[0] : "Aucun téléphone de renseignée",
                 }
-            }            
+            }
             return this.profileUser
         })
-        .error(val => {            
+        .error(val => {
             console.log(val);
             this.$bvModal.show("errorProfil")
         });

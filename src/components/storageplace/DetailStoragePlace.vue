@@ -46,7 +46,7 @@
             </b-form-group>
 
             <b-row id="margin-button">
-                <b-col md="1" offset-md="5">
+                <b-col md="2" offset-md="5">
                     <router-link :to="{name: 'gestionStoragePlace'}"><b-button href = "/" variant="primary">Retour</b-button></router-link>
                 </b-col>
             </b-row>    

@@ -88,7 +88,7 @@ export default
             key: 'firstname',
             label: 'Prénom',
             formatter: (value, key, item) => {
-              return item.firstname  
+              return item.first_name  
             },
             sortable: true            
           },
@@ -96,7 +96,7 @@ export default
             key: 'name',
             label: 'Nom',
             formatter: (value, key, item) => {
-              return item.name 
+              return item.last_name 
             },
             sortable: true
           },
@@ -143,7 +143,7 @@ export default
                 return item
               }
               else{                                
-                return item.name.toLowerCase().includes(this.searchName.toLowerCase())  
+                return item.last_name.toLowerCase().includes(this.searchName.toLowerCase())  
               }              
         })
       }, 

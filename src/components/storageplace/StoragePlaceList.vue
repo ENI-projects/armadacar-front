@@ -130,7 +130,7 @@ export default
                 return item
               }
               else{                                                        
-                return item.libelle.toLowerCase().includes(this.searchCity.toLowerCase())                  
+                return item.ville.toLowerCase().includes(this.searchCity.toLowerCase())                  
               }   
         })
       },

@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { MUTATIONS } from "./mutations-definitions";
 import { ACTIONS } from "./actions-definitions";
-import { fetchAsync, fetcher } from "@/api/fetcher";
+import { fetchAsync, fetcher, fetcherAPI, fetchAsyncAPI} from "@/api/fetcher";
 import { queries } from "@/api/queries.js";
 import { mutations } from "@/api/mutations.js";
 
@@ -24,7 +24,7 @@ export default new Vuex.Store({
     energies: [],
     isDelete: "",
     users: [],
-    storagePlace: [],    
+    storagePlace: [],
     remarque: "",
     countImmatriculation: "",
     historiqueDeplacements : [],
@@ -92,9 +92,6 @@ export default new Vuex.Store({
     [MUTATIONS.UDPATE_CAR]: (state, car) => {            
       state.vehicules.push(car)      
       state.car = car;      
-    },
-    [MUTATIONS.ADD_USERS_COURSES]: (state, course) => {      
-      state.resumeCourse = course;
     },
     [MUTATIONS.ADD_USERS_COURSES]: (state, course) => {      
       state.resumeCourse = course;
@@ -200,40 +197,13 @@ export default new Vuex.Store({
       );
     },
     [ACTIONS.SET_USERS]: async (context) => {
-      context.commit(
-        MUTATIONS.SET_USERS,
-        // NEXT TIME WILL MAKE REQUEST
-        [
-          { identifiant: 1, 
-            firstname: 'Jean-Michel', 
-            name: 'DUPONT',
-            email: 'jeanmi@gmail.com',
-            phone: '0685749586',
-            address: '7 rue des Lilas',
-            cp: '44000',
-            city: 'Nantes'
-          },
-          { identifiant: 2, 
-            firstname: 'Tony', 
-            name: 'Stark',
-            email: 'stark.tony@gmail.com',
-            phone: '06385974583',
-            address: '4 rue Malibu Beach',
-            cp: '44000',
-            city: 'Nantes'
-          },
-          { identifiant: 3, 
-            firstname: 'Bruce', 
-            name: 'Baner',
-            email: 'baner.bruce@gmail.com',
-            phone: '0635958512',
-            address: '4 rue tours des avengers',
-            cp: '44000',
-            city: 'Nantes'
-          
-          },
-        ]
-      );
+      const result = await fetchAsyncAPI(
+        context.state.token,
+        fetcherAPI,
+        "getUsers",
+        null
+      );      
+      context.commit(MUTATIONS.SET_USERS, result)      
     },
     [ACTIONS.UPDATE_TOKEN]: (context, token) => {
       context.commit(MUTATIONS.UPDATE_TOKEN, token);
@@ -464,8 +434,8 @@ export default new Vuex.Store({
       const result = await fetchAsync(
         context.state.token,
         fetcher,
-        queries.selectIdEnterpriseByUserId        
-      );            
+        queries.selectIdEnterpriseByUserId
+      );
       context.commit(
         MUTATIONS.SET_ID_ENTERPRISE_BY_USER_ID,
         result.data.armadacar_utilisateurs[0].id_entreprise
