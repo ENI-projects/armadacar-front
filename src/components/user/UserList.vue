@@ -34,7 +34,7 @@
                                 <router-link :to="{name : 'updateUser', params: { user: data.value}}"><img width="25px" height="25px" src="@/assets/images/pencilUpdate.png"></router-link>
                             </div>
                             <div class="col-xl-6">
-                              <a @click="handleDeleteUserClick(data.value.name)"><img width="30px" height="25px" src="@/assets/images/crossDelete.jpg" ></a>                              
+                              <a @click="handleDeleteUserClick(data.value.id, data.value.last_name)"><img width="30px" height="25px" src="@/assets/images/crossDelete.jpg" ></a>                              
                               <b-modal
                                 id="removeUser"
                                 title="Suppression de l'utilisateur"                                
@@ -150,21 +150,20 @@ export default
 
     }, 
     methods:{
-      handleDeleteUserClick(arg) {        
-        this.confirmRemove = `Voulez-vous supprimer l'utilisateur ${arg} ?`
-        this.argsIdUserClicked = arg
+      handleDeleteUserClick(arg1, arg2) {
+        this.confirmRemove = `Voulez-vous supprimer l'utilisateur ${arg2} ?`
+        this.argsIdUserClicked = arg1
         this.$bvModal.show("removeUser")
       },
       okModelButtonClicked() {
-        if (this.argsIdUserClicked) 
-        {                     
+        if (this.argsIdUserClicked)
+        {
           this.$bvModal.hide("removeUser")
-          // alert(this.argsIdUserClicked)          
-          // store.dispatch(ACTIONS.DELETE_USER,
-          // {
-          //   id: this.argsIdUserClicked
-          // });
-        }      
+          store.dispatch(ACTIONS.DELETE_USER,
+          {
+            id: this.argsIdUserClicked
+          });
+        }
       },
       cancelButtonClicked()
       {

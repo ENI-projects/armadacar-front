@@ -63,6 +63,10 @@ export const fetcherAPI = (token, action, params) => {
         id_entreprise: params.id_entreprise
       });
       break;
+    case "deleteUserById":
+      url = url + `/user/${params.id}`;
+      method = "DELETE";
+      break;
   }
   return fetch(url, {
     method: method,
@@ -83,6 +87,8 @@ export const fetchAsyncAPI = async (token, fetcherAPI, action, params) => {
   try {
     //if we called the user api these actions, we can't parse the response because it is empty
     if (      
+      action !== "deleteUserById" &&
+      action !== "addUser" &&
       action !== "updateUserById"
     ) {
       return await response.json();

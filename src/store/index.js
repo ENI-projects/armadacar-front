@@ -119,7 +119,11 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_LAST_TWO_ACTION_BY_ADMIN]: (state, lastTwoActionByAdmin) => {
       state.lastTwoActionByAdmin = lastTwoActionByAdmin
-    }
+    },
+    [MUTATIONS.DELETE_USER]: (state, userId) => {
+      //Supprime le user du store.
+      state.users.splice(state.users.findIndex(u => u.id == userId), 1);
+    },
   },
   actions: {
     [ACTIONS.SET_LAST_FOUR_COURSES]: async (context) => {
@@ -468,6 +472,18 @@ export default new Vuex.Store({
         fetcherAPI,
         "addUser",
         params
+      )
+    },
+    [ACTIONS.DELETE_USER]: async (context, params) => {
+      await fetchAsyncAPI(
+        context.state.token,
+        fetcherAPI,
+        "deleteUserById",
+        params
+      ),
+      context.commit(
+        MUTATIONS.DELETE_USER,
+        params.id
       )
     }
   }

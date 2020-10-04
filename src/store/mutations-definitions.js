@@ -25,5 +25,6 @@ export const MUTATIONS = {
     SET_ID_ENTERPRISE_BY_USER_ID: "selectIdEnterpriseByUserId",
     SET_LAST_TWO_ACTION_BY_ADMIN: "selectTwoLastActionByAdmin",
     UPDATE_USER : "updateUser",
-    ADD_USER : "addUser"
+    ADD_USER : "addUser",
+    DELETE_USER : "deleteUser"
 }
