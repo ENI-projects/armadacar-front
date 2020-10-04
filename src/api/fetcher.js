@@ -49,6 +49,20 @@ export const fetcherAPI = (token, action, params) => {
         id_entreprise: params.id_entreprise
       });
       break;
+    case "addUser":
+      url = url + `/user`;
+      method = "POST";
+      body = JSON.stringify({
+        email: params.email,
+        first_name: params.first_name,
+        last_name: params.last_name,
+        address: params.address,
+        ville: params.ville,
+        phone: params.phone,
+        code_postal: params.code_postal,
+        id_entreprise: params.id_entreprise
+      });
+      break;
   }
   return fetch(url, {
     method: method,

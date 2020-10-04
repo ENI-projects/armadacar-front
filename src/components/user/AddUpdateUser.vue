@@ -157,7 +157,7 @@ export default {
             ACTIONS.ADD_USER,
             body
           ).then(() => {
-              this.$router.push({ name: 'detailUser', params: { user: form }})
+              this.$router.push({ name: 'detailUser', params: { user: body }})
           })
         }
         else{

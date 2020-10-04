@@ -460,6 +460,15 @@ export default new Vuex.Store({
         "updateUserById",
         params
       )
+    },
+    [ACTIONS.ADD_USER]: async (context, params) => {
+      params.id_entreprise = context.state.idEnterprise
+      await fetchAsyncAPI(
+        context.state.token,
+        fetcherAPI,
+        "addUser",
+        params
+      )
     }
   }
 });
