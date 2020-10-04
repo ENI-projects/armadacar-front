@@ -320,7 +320,7 @@ export default new Vuex.Store({
       context.commit(MUTATIONS.DELETE_STORAGE_PLACE, false, identifiantStoragePlace);
     },    
     [ACTIONS.ADD_COURSE]: async (context, {dateDebut, dateFin, lieuDepart, lieuArrivee, idVoiture, allerRetour}) => {      
-      let id_entreprise = context.state.idEnterprise;                  
+      let id_entreprise = context.state.idEnterprise;
       const addCourse = await fetchAsync(
         context.state.token,
         fetcher,
@@ -451,6 +451,15 @@ export default new Vuex.Store({
         MUTATIONS.SET_LAST_TWO_ACTION_BY_ADMIN,
         result.data
       )
+    },
+    [ACTIONS.UPDATE_USER]: async (context, params) => {
+      params.id_entreprise = context.state.idEnterprise
+      await fetchAsyncAPI(
+        context.state.token,
+        fetcherAPI,
+        "updateUserById",
+        params
+      )
     }
-  } 
+  }
 });

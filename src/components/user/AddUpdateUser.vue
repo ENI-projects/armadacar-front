@@ -100,20 +100,21 @@
 </template>
 
 <script>
+import store from '@/store';
+import { ACTIONS } from "@/store/actions-definitions";
 
 export default {  
-  data() {    
-      
+  data() {          
     return {        
       error: "",   
       form: {
-        firstname: this.$route.params.user == null ? '' : this.$route.params.user.firstname,
-        name: this.$route.params.user == null ? '' : this.$route.params.user.name,      
+        firstname: this.$route.params.user == null ? '' : this.$route.params.user.first_name,
+        name: this.$route.params.user == null ? '' : this.$route.params.user.last_name,      
         email: this.$route.params.user == null ? '' : this.$route.params.user.email,
         phone: this.$route.params.user == null ? '' : this.$route.params.user.phone,
         address: this.$route.params.user == null ? '' : this.$route.params.user.address,
-        cp: this.$route.params.user == null ? '' : this.$route.params.user.cp,
-        city: this.$route.params.user == null ? '' : this.$route.params.user.city,
+        cp: this.$route.params.user == null ? '' : this.$route.params.user.code_postal,
+        city: this.$route.params.user == null ? '' : this.$route.params.user.ville,
       },       
       show: true,   
     } 
@@ -140,7 +141,34 @@ export default {
       } else if (!form.city || form.city === "") {
         this.error = "Veuillez renseigner la ville";
       } else{
-        this.$router.push({ name: 'detailUser', params: { user: form }})    
+        let body = {
+            id: "",
+            email: form.email,
+            first_name: form.firstname,
+            last_name: form.name,
+            address: form.address,
+            ville: form.city,
+            phone: form.phone,
+            code_postal: form.cp,
+            id_entreprise: ""
+        }
+        if (this.$route.params.user == null){
+          store.dispatch(
+            ACTIONS.ADD_USER,
+            body
+          ).then(() => {
+              this.$router.push({ name: 'detailUser', params: { user: form }})
+          })
+        }
+        else{
+          body.id = this.$route.params.user.id
+          store.dispatch(
+            ACTIONS.UPDATE_USER, 
+            body
+          ).then(() => {
+              this.$router.push({ name: 'detailUser', params: { user: body }})
+          })
+        }
       }
     },
   

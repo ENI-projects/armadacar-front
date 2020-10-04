@@ -26,7 +26,7 @@ export const fetchAsync = async (token, fetcher, query, variables) => {
   }
 };
 
-export const fetcherAPI = (token, action) => {     
+export const fetcherAPI = (token, action, params) => {     
   let url = process.env.VUE_APP_API_USER_MANAGEMENT_BASEURL;
   let method = "";
   let body = undefined;
@@ -34,13 +34,27 @@ export const fetcherAPI = (token, action) => {
     case "getUsers":
       url = url + "/users";
       method = "GET";
-      break;    
+      break;
+    case "updateUserById":
+      url = url + `/user/${params.id}`;
+      method = "PUT";
+      body = JSON.stringify({        
+        email: params.email,
+        first_name: params.first_name,
+        last_name: params.last_name,
+        address: params.address,
+        ville: params.ville,
+        phone: params.phone,
+        code_postal: params.code_postal,
+        id_entreprise: params.id_entreprise
+      });
+      break;
   }
   return fetch(url, {
-    method: method,    
+    method: method,
     headers: {
       "content-Type": "application/json",
-       Authorization: `Bearer ${token}`      
+       Authorization: `Bearer ${token}`
     },
     body: body
   });
@@ -53,7 +67,12 @@ export const fetchAsyncAPI = async (token, fetcherAPI, action, params) => {
     throw response;
   }
   try {
-    return await response.json();
+    //if we called the user api these actions, we can't parse the response because it is empty
+    if (      
+      action !== "updateUserById"
+    ) {
+      return await response.json();
+    }
   } catch (err) {
     console.error("Error parsing JSON", err);
   }
